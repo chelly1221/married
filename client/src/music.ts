@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import defaultBgm from './assets/heartwarming.mp3';
+import defaultBgm from './assets/together-in-small-days.mp3';
 
 // 사용자가 제공한 data/media/bgm.mp3가 있으면 우선 사용하고, 없으면 기본 피아노곡을 재생한다.
 // 오디오는 클릭할 때만 만들고 재생한다. 새로고침 후에는 항상 꺼진 상태로 시작한다.
@@ -45,5 +45,5 @@ export function useMusic() {
       .catch(() => setOn(false));
   };
 
-  return { available: !!source, on, toggle, credit: source === defaultBgm };
+  return { available: !!source, on, toggle };
 }

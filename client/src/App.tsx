@@ -38,7 +38,7 @@ export default function App() {
       <Story t={t} />
       <WeddingDay t={t} />
       <Guestbook t={t} entries={entries} submit={submit} />
-      <Footer t={t} musicCredit={music.credit} />
+      <Footer t={t} />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { Lines } from '../lines.tsx';
 import { Reveal } from '../motion.tsx';
 import { C, F } from '../tokens.ts';
 
-export function Footer({ t, musicCredit }: { t: Strings; musicCredit: boolean }) {
+export function Footer({ t }: { t: Strings }) {
   return (
     <div
       style={{
@@ -26,17 +26,6 @@ export function Footer({ t, musicCredit }: { t: Strings; musicCredit: boolean })
       <Reveal delay={280}>
         <div style={{ font: `400 11px/1 ${F.mono}`, letterSpacing: '.2em', color: C.roman }}>{t.footerSig}</div>
       </Reveal>
-      {musicCredit && (
-        <div style={{ marginTop: 8, font: `400 10px/1.8 ${F.batang}`, color: C.mute }}>
-          <a href="https://www.incompetech.com/music/royalty-free/index.html?isrc=USUAN1100207" target="_blank" rel="noreferrer">
-            Heartwarming — Kevin MacLeod (incompetech.com)
-          </a>
-          <br />
-          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">
-            CC BY 4.0
-          </a>
-        </div>
-      )}
     </div>
   );
 }

@@ -30,7 +30,7 @@
   IP당 등록 제한 6건/10분), `data/media/` 정적 서빙(`/media`).
   index.html 은 `no-store`, 해시 붙은 `/assets/*` 는 1년 immutable — 위챗 내장 브라우저가 옛 HTML을 붙들고 있는 문제 대응.
 - `data/` — 방명록 JSON + 미디어 (런타임 생성, git 무시, 볼륨으로 보존)
-- `design/` — 원본 디자인 핸드오프(참고용, 이식 대상 아님)
+- `design/` — 원본 디자인 핸드오프와 이미지·음악 제작 자료(런타임에 직접 사용하지 않음)
 
 ## 콘텐츠 교체 포인트 (재빌드 불필요한 것 표시)
 - 혼인일 공개 여부: `client/src/tokens.ts` 의 `DATE_HIDDEN`(현재 true). true 면 히어로 날짜는 `????. ??. ??`,
@@ -41,12 +41,12 @@
   (사진 없이 운영하는 것이 기본 컨셉 — PhotoSection.tsx)
 - 배경음악: `data/media/bgm.mp3`를 추가·교체하고 페이지를 새로고침하면 재빌드 없이 반영한다.
   `src/music.ts`에서 `/media/bgm.mp3`의 HEAD 요청이 성공하면 이 파일을 우선 사용하며, 파일이 없거나
-  확인 요청이 실패하면 번들 기본곡 “Heartwarming” — Kevin MacLeod를 사용한다. 클릭 전에는 Audio 객체를
-  만들지 않는다. 매번 꺼진 상태로 시작하며, 재생 시 `loop: true`, `volume: 0.3`을 적용한다.
-  기본곡은 `client/src/assets/heartwarming.mp3`에 변형 없는 원본을 저장한다. CC BY 4.0 출처·크레딧·원본 URL·
-  해시 기록은 `client/public/music/heartwarming-license.txt`이며 `/music/heartwarming-license.txt`로 제공한다.
-  `Footer.tsx`는 기본곡 선택 시에만 곡·저작자·CC BY 4.0 링크를 표시한다. 번들 기본곡을 교체할 때는
-  해당 파일·푸터 크레딧·라이선스 기록을 함께 갱신하고 재빌드한다.
+  확인 요청이 실패하면 번들 기본곡 “작은 날들을 함께”(Together in Small Days)를 사용한다. 클릭 전에는
+  Audio 객체를 만들지 않는다. 매번 꺼진 상태로 시작하며, 재생 시 `loop: true`, `volume: 0.3`을 적용한다.
+  기본곡은 `client/src/assets/together-in-small-days.mp3`이며, 이 페이지를 위해 직접 작성한 피아노 악보와
+  합성 음색으로 제작했다. 외부 녹음·샘플은 사용하지 않는다. 악보·렌더링 소스와 재생성 안내는
+  `design/music/together-in-small-days/README.md`에 보관한다. 기본곡 파일이나 `src/music.ts`의 가져오기
+  경로를 바꾸면 재빌드한다. 제작 자료는 배포 이미지에 포함하지 않으며, 결과 MP3만 클라이언트에 번들한다.
 - 부모님 성함: `client/src/i18n.ts` — 신랑 서갑수·이윤진, 신부는 모친 刘丽娟 만(부친 성함은 의도적으로 생략, KR 로케일은 한국 한자음 유려연).
   바꾸려면 4개 로케일 모두 수정 → 재빌드 필요
 - 두 사람의 이야기: `client/src/i18n.ts` 의 `story` 배열(장마다 mark + text) 4개 로케일. 신부 부친·가족사는

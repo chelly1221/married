@@ -1,0 +1,14 @@
+{
+  "title": "작은 날들을 함께",
+  "titleEn": "Together in Small Days",
+  "tempo": 76,
+  "bars": 32,
+  "notes": 336,
+  "sampleRate": 44100,
+  "durationSeconds": 104.053,
+  "seed": 730912,
+  "sha256": "c73266a9b74e3005aec003f4359dff85a0f2124b8b8ed0a1e80267267acc64e6",
+  "targetLufs": -20,
+  "targetTruePeakDb": -2,
+  "source": "Original score and additive synthesized piano; no sampled audio."
+}
