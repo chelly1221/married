@@ -22,6 +22,8 @@
   - `src/motion.tsx` — 모션 유틸: Reveal(딜레이·from 변형 지원) / useInView / useParallax /
     useScrollExit(히어로 스크롤 퇴장) / useCountUp(D+ 카운트업). 전부 reduced-motion 대응.
     스크롤 탈취(scroll-jacking)는 의도적으로 쓰지 않는다 — 네이티브 스크롤 유지.
+  - `src/music.ts` — useMusic. 사용자 음악 확인 후 기본곡을 선택하며, 클릭할 때만 오디오를 만들고 재생한다.
+    자동재생·이전 세션의 재생 상태 복원은 하지 않는다. 새로고침하면 항상 꺼진 상태이며 반복 재생·볼륨 0.3을 사용한다.
   - `src/components/` — TopBar / Hero / Greeting / PhotoSection / Couple / Story / WeddingDay / Guestbook / Footer
 - `server/` — Node 20 + Express(ESM). 방명록 `GET·POST /api/guestbook`
   (tmp+fsync+rename 원자적 저장, 실패 시 재시도 후 500 + 메모리 롤백, 파일이 깨져 있으면 덮어쓰지 않고 503,
@@ -37,7 +39,14 @@
 - 함께한 날(D+): `client/src/tokens.ts` 의 `RELATIONSHIP_START`(2025-02-12) 기준. 방문자의 현지 날짜로 계산하며 시작일은 D+0이다. `DATE_HIDDEN`이 true이면 기존처럼 숨긴다 → 재빌드 필요
 - 사진: `data/media/couple.jpg` (세로 4:5) 드롭 → 즉시 반영. 없으면 囍 장식 밴드가 기본
   (사진 없이 운영하는 것이 기본 컨셉 — PhotoSection.tsx)
-- 배경음악: `data/media/bgm.mp3` 드롭 → 즉시 반영, 없으면 토글 버튼 숨김
+- 배경음악: `data/media/bgm.mp3`를 추가·교체하고 페이지를 새로고침하면 재빌드 없이 반영한다.
+  `src/music.ts`에서 `/media/bgm.mp3`의 HEAD 요청이 성공하면 이 파일을 우선 사용하며, 파일이 없거나
+  확인 요청이 실패하면 번들 기본곡 “Heartwarming” — Kevin MacLeod를 사용한다. 클릭 전에는 Audio 객체를
+  만들지 않는다. 매번 꺼진 상태로 시작하며, 재생 시 `loop: true`, `volume: 0.3`을 적용한다.
+  기본곡은 `client/src/assets/heartwarming.mp3`에 변형 없는 원본을 저장한다. CC BY 4.0 출처·크레딧·원본 URL·
+  해시 기록은 `client/public/music/heartwarming-license.txt`이며 `/music/heartwarming-license.txt`로 제공한다.
+  `Footer.tsx`는 기본곡 선택 시에만 곡·저작자·CC BY 4.0 링크를 표시한다. 번들 기본곡을 교체할 때는
+  해당 파일·푸터 크레딧·라이선스 기록을 함께 갱신하고 재빌드한다.
 - 부모님 성함: `client/src/i18n.ts` — 신랑 서갑수·이윤진, 신부는 모친 刘丽娟 만(부친 성함은 의도적으로 생략, KR 로케일은 한국 한자음 유려연).
   바꾸려면 4개 로케일 모두 수정 → 재빌드 필요
 - 두 사람의 이야기: `client/src/i18n.ts` 의 `story` 배열(장마다 mark + text) 4개 로케일. 신부 부친·가족사는
@@ -51,6 +60,9 @@
   두 로케일의 신부 주표기는 `周婷婷`, 이야기에서는 `婷婷`이다. 일본어 인물 소개에는 가타카나 발음을
   덧붙이고, 로마자 보조 표기는 유지한다. 부모님 한자는 확인 없이 추정하지 않는다.
   번역은 원문의 '오랜 시간'을 수년으로 단정하지 않으며, 혼인 날짜를 예식 날짜로 오해하지 않도록 표현한다.
+- 한글 줄바꿈: `Hero.tsx`의 안내 문구와 `Greeting.tsx`의 본문, 기존 이야기 본문에 `.prose`를 적용한다.
+  `index.css`의 `:lang(ko) .prose { word-break: keep-all; }`로 한국어 어절 중간의 줄바꿈을 막는다.
+  다른 로케일에는 이 규칙을 적용하지 않으며, 첫 화면의 각 이름에는 `white-space: nowrap`을 적용한다.
 - 두 사람의 이야기 스프라이트 삽화: 1·2·3·5장은 `client/src/assets/story-01-sprite.webp`,
   `story-02-sprite.webp`, `story-03-sprite.webp`, `story-05-sprite.webp`와 각각 `.png` 폴백을 사용한다.
   언어교환 앱·자전거 여행·함께 탄 비행기·집에서 낮은 나무 탁자와 찻잔 두 개를 앞에 둔 두 사람의 장면이다.

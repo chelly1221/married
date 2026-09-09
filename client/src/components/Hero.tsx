@@ -49,13 +49,13 @@ export function Hero({ t }: { t: Strings }) {
           </Reveal>
           <Reveal delay={420}>
             <div style={{ font: `400 ${t.heroNameSize}px/1.35 ${F.myeongjo}`, letterSpacing: '.08em', textAlign: 'center' }}>
-              {t.heroGroom}
+              <span style={{ whiteSpace: 'nowrap' }}>{t.heroGroom}</span>
               <span style={{ color: C.accent, padding: '0 9px' }}>·</span>
-              {t.heroBride}
+              <span style={{ whiteSpace: 'nowrap' }}>{t.heroBride}</span>
             </div>
           </Reveal>
           <Reveal delay={560}>
-            <div style={{ font: `400 15px/1.9 ${F.batang}`, letterSpacing: '.05em', color: C.ink60, textAlign: 'center' }}>
+            <div className="pretty prose" style={{ font: `400 15px/1.9 ${F.batang}`, letterSpacing: '.05em', color: C.ink60, textAlign: 'center' }}>
               <Lines lines={t.heroMsg} />
             </div>
           </Reveal>

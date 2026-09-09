@@ -45,7 +45,9 @@ export function TopBar({ t, locale, setLocale, music }: Props) {
       </div>
       {music.available && (
         <button
+          type="button"
           onClick={music.toggle}
+          aria-pressed={music.on}
           style={{
             border: '1px solid rgba(33,32,29,.22)',
             background: 'transparent',
@@ -54,6 +56,8 @@ export function TopBar({ t, locale, setLocale, music }: Props) {
             padding: '5px 11px',
             font: `400 11px/1 ${F.batang}`,
             letterSpacing: '.1em',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
           }}
         >
           {music.on ? t.musicStop : t.musicPlay}

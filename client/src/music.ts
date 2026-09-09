@@ -1,54 +1,49 @@
 import { useEffect, useRef, useState } from 'react';
+import defaultBgm from './assets/heartwarming.mp3';
 
-// 배경음악. 음원은 data/media/bgm.mp3 로 드롭하면 서버가 /media/bgm.mp3 로 서빙한다.
-// 파일이 없으면 토글 버튼 자체를 숨긴다. 자동재생은 하지 않고(브라우저 정책 준수),
-// 세션 내 재방문 시 이전 on 상태를 시도만 해 보고 막히면 조용히 off 로 둔다.
-const BGM_URL = '/media/bgm.mp3';
+// 사용자가 제공한 data/media/bgm.mp3가 있으면 우선 사용하고, 없으면 기본 피아노곡을 재생한다.
+// 오디오는 클릭할 때만 만들고 재생한다. 새로고침 후에는 항상 꺼진 상태로 시작한다.
+const CUSTOM_BGM_URL = '/media/bgm.mp3';
 
 export function useMusic() {
-  const [available, setAvailable] = useState(false);
+  const [source, setSource] = useState('');
   const [on, setOn] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const start = () => {
-    if (!audioRef.current) {
-      const a = new Audio(BGM_URL);
-      a.loop = true;
-      a.volume = 0.3;
-      audioRef.current = a;
-    }
-    audioRef.current
-      .play()
-      .then(() => setOn(true))
-      .catch(() => setOn(false));
-  };
-
   useEffect(() => {
     let cancelled = false;
-    fetch(BGM_URL, { method: 'HEAD' })
-      .then((r) => {
-        if (cancelled || !r.ok) return;
-        setAvailable(true);
-        if (sessionStorage.getItem('music') === '1') start();
+    fetch(CUSTOM_BGM_URL, { method: 'HEAD' })
+      .then((response) => {
+        if (!cancelled) setSource(response.ok ? CUSTOM_BGM_URL : defaultBgm);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (!cancelled) setSource(defaultBgm);
+      });
     return () => {
       cancelled = true;
       audioRef.current?.pause();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggle = () => {
+    if (!source) return;
     if (on) {
       audioRef.current?.pause();
       setOn(false);
-      sessionStorage.setItem('music', '0');
-    } else {
-      sessionStorage.setItem('music', '1');
-      start();
+      return;
     }
+    if (!audioRef.current) {
+      const audio = new Audio(source);
+      audio.preload = 'none';
+      audio.loop = true;
+      audio.volume = 0.3;
+      audioRef.current = audio;
+    }
+    const audio = audioRef.current;
+    audio.play()
+      .then(() => setOn(!audio.paused))
+      .catch(() => setOn(false));
   };
 
-  return { available, on, toggle };
+  return { available: !!source, on, toggle, credit: source === defaultBgm };
 }
