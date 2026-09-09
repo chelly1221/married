@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>자전거 애니메이션 비교</title>
+<style>
+:root{color-scheme:light;--paper:#f4efe6;--ink:#302c26;--red:#9c3b2e}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,sans-serif}main{max-width:940px;margin:auto;padding:40px 22px 56px}header{margin-bottom:28px}h1{font-family:serif;font-weight:400;font-size:28px;margin:8px 0 14px}p{font-size:14px;line-height:1.8;color:#71685b;margin:0}small{font-size:12px;color:var(--red);letter-spacing:.1em}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{border:1px solid #dcd2c3;border-radius:12px;padding:24px 18px 18px;min-width:0}.label{font-size:14px;margin:0 0 10px;text-align:center}.art{width:100%;max-width:360px;aspect-ratio:432/352;margin:0 auto;position:relative;overflow:hidden;mix-blend-mode:darken}.art svg{display:block;width:100%;height:100%}.old-sheet{position:absolute;left:0;top:0;width:300%;height:auto;max-width:none}.caption{font-size:12px;text-align:center;min-height:42px;line-height:1.7;margin-top:12px;color:#71685b}.controls{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:24px 0 14px}button,select{font:inherit;font-size:14px;color:var(--ink);border:1px solid #c9bcab;border-radius:7px;background:#fcf8f0;padding:10px 14px;min-height:42px}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:4px}label{font-size:13px;display:flex;align-items:center;gap:8px}.timeline{display:flex;align-items:center;gap:14px;max-width:480px;margin:auto}.timeline input{width:100%;accent-color:var(--red)}output{font-size:12px;min-width:44px;font-variant-numeric:tabular-nums}.note{margin-top:24px;font-size:13px;line-height:1.8}.rig-overlay{display:none;pointer-events:none}.rig-overlay.visible{display:block}.rig-overlay path{stroke:#d44039;stroke-width:1.3;fill:none;stroke-dasharray:3 3}.rig-overlay circle{stroke:white;stroke-width:1.2;fill:#d44039}@media(max-width:620px){main{padding:26px 16px 36px}.cards{grid-template-columns:1fr;gap:16px}.card{padding:16px 14px 14px}.art{max-width:300px}h1{font-size:25px}}
+</style>
+</head>
+<body><main>
+<header><small>자전거 장면 · 비교용 테스트</small><h1>같은 그림, 계산한 움직임</h1><p>기존 9프레임과 페달에 맞춰 관절을 움직이는 방식을 비교해 보세요.</p></header>
+<div class="cards">
+<section class="card"><h2 class="label">기존 9프레임</h2><div class="art"><img id="old" class="old-sheet" src="old-sprite.webp" alt="기존 손그림 자전거 애니메이션"></div><p class="caption">생성한 그림 9장을 순서대로 재생</p></section>
+<section class="card"><h2 class="label">2D 관절 애니메이션</h2><div class="art">
+<svg id="bike" viewBox="0 0 432 352" role="img" aria-label="고정된 상체와 자전거에서 페달과 다리만 움직이는 자전거 애니메이션" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <clipPath id="upper-clip"><path d="M146 18H265V126L313 139V175H240L207 162 195 174 149 174Z"/></clipPath>
+ <clipPath id="bag-clip"><path d="M87 193Q113 187 151 193L158 207 153 244 143 252 96 253 83 238 82 211Z"/></clipPath>
+ <linearGradient id="pants" x1="0" x2="1"><stop stop-color="#50483b"/><stop offset=".5" stop-color="#5d5141"/><stop offset="1" stop-color="#473e33"/></linearGradient>
+ <linearGradient id="far-pants" x1="0" x2="1"><stop stop-color="#4a4136"/><stop offset="1" stop-color="#605344"/></linearGradient>
+ <pattern id="cloth" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M0 1L5 2M1 0L2 5" stroke="#9a8970" opacity=".12" stroke-width=".4"/></pattern>
+</defs>
+<ellipse cx="217" cy="322" rx="151" ry="2.5" fill="#a89f91" opacity=".12"/>
+<g id="wheels" stroke-linecap="round"></g>
+<g id="far-leg"></g>
+<g id="frame" fill="none" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M124 267L175 193 200 274 124 267M175 193L277 194 200 274M271 166L281 204 310 267" stroke="#393128" stroke-width="8"/>
+ <path d="M124 267L175 193 200 274 124 267M175 193L277 194 200 274M271 166L281 204 310 267" stroke="#a24d35" stroke-width="4.8"/>
+ <path d="M124 267L175 193M177 193L276 194M202 272L279 196M282 205L310 265" stroke="#d3976e" stroke-width=".9"/>
+ <path d="M175 193L171 182" stroke="#574c3c" stroke-width="5"/>
+ <path d="M158 181Q173 178 193 183L194 187Q177 191 159 186Z" fill="#4a3e31" stroke="#352e27" stroke-width="1.4"/>
+ <path d="M83 233Q107 208 145 218M271 223Q302 202 333 216" stroke="#473a2c" stroke-width="4"/>
+ <path d="M89 211L157 211 124 267M158 210L149 233" stroke="#645644" stroke-width="2"/>
+ <path d="M278 160Q291 146 304 155Q313 168 294 215M274 164Q296 158 302 160Q305 179 286 207" stroke="#665e51" stroke-width="1.3"/>
+ <path d="M123 263L200 263Q213 274 200 284L123 271Z" stroke="#514b40" stroke-width="1.4"/>
+ <circle cx="200" cy="274" r="15.5" fill="#766c5a" stroke="#342f28" stroke-width="2"/>
+ <g id="chainring"></g>
+</g>
+<g id="near-leg"></g>
+<image href="reference.png" width="432" height="352" clip-path="url(#bag-clip)"/>
+<path d="M157 165Q173 171 193 166L198 178Q190 191 176 189L158 181Z" fill="url(#pants)" stroke="#3a332a" stroke-width="1.3"/>
+<image href="reference.png" width="432" height="352" clip-path="url(#upper-clip)"/>
+<g id="overlay" class="rig-overlay"><path id="skeleton"/><circle id="hip-dot" r="3"/><circle id="knee-dot" r="3"/><circle id="ankle-dot" r="3"/><circle cx="200" cy="274" r="3"/></g>
+</svg>
+</div><p class="caption">얼굴·상체 고정 · 일정한 페달 회전<br>바퀴와 다리는 같은 동작을 연속 재생</p></section>
+</div>
+<div class="controls"><button id="play" type="button">일시정지</button><label>속도<select id="speed"><option value="0.5">느리게</option value="1" selected>기본</option><option value="1.5">빠르게</option></select></label><label><input id="joints" type="checkbox">관절 보기</label></div>
+<div class="timeline"><input id="phase" type="range" min="0" max="1000" value="0" aria-label="애니메이션 진행 위치"><output id="progress">0%</output></div>
+<p class="note">기존 그림의 얼굴과 상체를 재사용하고, 다리와 자전거 일부는 움직임을 계산할 수 있도록 다시 구성한 테스트입니다. 최종 손그림의 질감을 완성하기 전, 동작의 차이를 확인하는 용도예요. 운영 페이지의 애니메이션은 그대로입니다.</p>
+</main>
+<script src="rig.js"></script>
+</body></html>

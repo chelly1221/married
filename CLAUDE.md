@@ -1,0 +1,108 @@
+# CLAUDE.md
+
+## 프로젝트 목적
+결혼식을 따로 진행하지 않는 부부(서상현 · 주정정)가 지인들에게 결혼 사실만 정중히 알리는
+모바일 원페이지 랜딩. 예식 안내·오시는 길·축의금 계좌는 의도적으로 없다.
+구성: 인사말 / 사진 / 두 사람 소개 / 두 사람의 이야기 / 혼인한 날(캘린더 + D+ 카운터) / 방명록.
+4개 언어(KR/EN/JP/CN) 지원 — 신부가 중국분이라 CN이 필수. 스크롤 리빌 + 패럴랙스,
+`prefers-reduced-motion` 대응.
+
+## 명령어
+- `npm install` — 루트에서 워크스페이스(client, server) 전체 설치
+- `npm run dev` — server(3001) + Vite dev server 동시 실행 (Vite가 `/api`·`/media`를 3001로 프록시)
+- `npm run build` — 클라이언트 빌드 (`client/dist`) + `tsc --noEmit` 타입 체크
+- `npm run start` — 프로덕션 서버 실행 (`PORT` 기본 3001, API + 빌드된 클라이언트 제공)
+- `docker compose up -d --build` — 컨테이너 빌드/기동 (호스트 3002 포트)
+
+## 구조
+- `client/` — Vite + React 18 + TypeScript(strict). 인라인 style로 디자인 프로토타입을 그대로 재현.
+  - `src/App.tsx` — 로케일 상태 + 섹션 조립
+  - `src/i18n.ts` — 4개 로케일 전체 카피 (부모님 성함, 두 사람의 이야기 `story` 배열 포함)
+  - `src/tokens.ts` — 색·폰트 토큰, 혼인일(2026-06-20) 단일 출처
+  - `src/motion.tsx` — 모션 유틸: Reveal(딜레이·from 변형 지원) / useInView / useParallax /
+    useScrollExit(히어로 스크롤 퇴장) / useCountUp(D+ 카운트업). 전부 reduced-motion 대응.
+    스크롤 탈취(scroll-jacking)는 의도적으로 쓰지 않는다 — 네이티브 스크롤 유지.
+  - `src/components/` — TopBar / Hero / Greeting / PhotoSection / Couple / Story / WeddingDay / Guestbook / Footer
+- `server/` — Node 20 + Express(ESM). 방명록 `GET·POST /api/guestbook`
+  (tmp+fsync+rename 원자적 저장, 실패 시 재시도 후 500 + 메모리 롤백, 파일이 깨져 있으면 덮어쓰지 않고 503,
+  IP당 등록 제한 6건/10분), `data/media/` 정적 서빙(`/media`).
+  index.html 은 `no-store`, 해시 붙은 `/assets/*` 는 1년 immutable — 위챗 내장 브라우저가 옛 HTML을 붙들고 있는 문제 대응.
+- `data/` — 방명록 JSON + 미디어 (런타임 생성, git 무시, 볼륨으로 보존)
+- `design/` — 원본 디자인 핸드오프(참고용, 이식 대상 아님)
+
+## 콘텐츠 교체 포인트 (재빌드 불필요한 것 표시)
+- 혼인일 공개 여부: `client/src/tokens.ts` 의 `DATE_HIDDEN`(현재 true). true 면 히어로 날짜는 `????. ??. ??`,
+  혼인한 날 섹션은 라벨 + 로케일별 가림 표기(`i18n.ts` `dateMasked`)만 남고 캘린더·D+ 는 숨긴다.
+  공개할 때 false 로 바꾸면 혼인일 기준 캘린더와 연애 시작일 기준 D+ 가 다시 나온다 → 재빌드 필요
+- 함께한 날(D+): `client/src/tokens.ts` 의 `RELATIONSHIP_START`(2025-02-12) 기준. 방문자의 현지 날짜로 계산하며 시작일은 D+0이다. `DATE_HIDDEN`이 true이면 기존처럼 숨긴다 → 재빌드 필요
+- 사진: `data/media/couple.jpg` (세로 4:5) 드롭 → 즉시 반영. 없으면 囍 장식 밴드가 기본
+  (사진 없이 운영하는 것이 기본 컨셉 — PhotoSection.tsx)
+- 배경음악: `data/media/bgm.mp3` 드롭 → 즉시 반영, 없으면 토글 버튼 숨김
+- 부모님 성함: `client/src/i18n.ts` — 신랑 서갑수·이윤진, 신부는 모친 刘丽娟 만(부친 성함은 의도적으로 생략, KR 로케일은 한국 한자음 유려연).
+  바꾸려면 4개 로케일 모두 수정 → 재빌드 필요
+- 두 사람의 이야기: `client/src/i18n.ts` 의 `story` 배열(장마다 mark + text) 4개 로케일. 신부 부친·가족사는
+  적지 않는다. CN 카피는 신부 검수 전 초안 → 재빌드 필요
+  첫 인사는 학습 언어·앱 사용 목적을 생략하고 두 사람의 대화로 시작한다. 첫 만남은 상현의 자전거 여행 중
+  후허하오터에서 나흘 함께 지내고, 상현이 귀가 후 마음을 전하고 석 달 뒤 정정이 답한 순서다.
+  첫 만남 문구에는 거리·출발지를 넣지 않는다. 마지막 장은 정정의 대학 졸업 뒤 두 달 동안 한집에서 지내며,
+  일상을 함께 나누고 부부가 되기로 한 내용이다.
+- 이름 표기: 사용자 확인 한자는 徐(천천히 갈 서)·相(서로 상)·賢(어질 현)이다. 일본어는 `徐相賢`,
+  중국어 간체는 `徐相贤`을 제목·첫 화면·소개·마무리에 사용하고, 이야기에서는 `相賢`·`相贤`으로 쓴다.
+  두 로케일의 신부 주표기는 `周婷婷`, 이야기에서는 `婷婷`이다. 일본어 인물 소개에는 가타카나 발음을
+  덧붙이고, 로마자 보조 표기는 유지한다. 부모님 한자는 확인 없이 추정하지 않는다.
+  번역은 원문의 '오랜 시간'을 수년으로 단정하지 않으며, 혼인 날짜를 예식 날짜로 오해하지 않도록 표현한다.
+- 두 사람의 이야기 스프라이트 삽화: 1·2·3·5장은 `client/src/assets/story-01-sprite.webp`,
+  `story-02-sprite.webp`, `story-03-sprite.webp`, `story-05-sprite.webp`와 각각 `.png` 폴백을 사용한다.
+  언어교환 앱·자전거 여행·함께 탄 비행기·집에서 낮은 나무 탁자와 찻잔 두 개를 앞에 둔 두 사람의 장면이다.
+  1296×1056, 3열×3행 시트(프레임 432×352, 9프레임 × 320ms, 2.88초 반복)를 260px 너비로 재생한다.
+  `Story.tsx`의 `storyArt` 배열과 `index.css`의 `.sprite-3x3`를 사용한다. 동작 줄이기에서는 첫 프레임에 고정된다.
+  첫 번째·두 번째 장은 종이색 배경의 사용자 제공 시트이며, 세 번째·다섯 번째 장은 Reveal의
+  `mix-blend-mode: darken`으로 밝은 배경을 페이지에 맞춘다.
+  첫 번째·두 번째 장 원본은 각각 `design/story-01/supplied-sheet.png`, `design/story-02/supplied-sheet.png`다.
+  각 폴더의 `prepare.cjs`는 크기를 검증한 뒤 PNG를 그대로 복사하고 WebP를 생성한다(프레임별 재정렬 없음).
+  세 번째 장은 사용자 제공 `story-03-web-upload.zip`을 풀어 둔 `design/story-03/refined/`의
+  `story-03-sprite-3x3.png`와 무손실 `.webp`를 사용한다. `design/story-03/prepare.cjs`는 두 파일의 크기를
+  검증한 뒤 그대로 복사한다(프레임 재정렬·재인코딩 없음). 패키지의 HTML/CSS와 애니메이션 파일은 미리보기 자료다.
+  다섯 번째 장은 내장 image_gen으로 제작했다. 원본과 정확한 프롬프트는 `design/story-05/`의
+  `generated-sheet.png`, `generation-prompt.txt`에 보관한다. 작은 시선·미소·눈 깜박임으로 함께하는 일상을 표현한다.
+  `design/story-05/prepare.cjs`는 공용 `design/prepare-story-sprite.cjs`를 호출한다. 공용 스크립트는 3×3 셀의
+  어두운 삽화 경계를 검출하고, 아홉 프레임에 같은 배율을 적용한 뒤 중심·바닥선을 맞춰 생성 여백을 정리한다.
+  그림을 다시 그리지 않고 1296×1056 PNG와 WebP(품질 0.92), 정렬 기록 `layout.json`을 만든다.
+  `design/story-03/generated-sheet.png`, `generation-prompt.txt`와 `/srv/drop/files/story-01-language-app.zip`은
+  이전 시안의 원본·제작 기록이며 현재 사용하지 않는다. 15프레임 시안도 `design/story-15/`에 보관만 한다.
+  프레임 격자를 바꾸면 CSS와 이미지 너비도 함께 수정해야 한다 → 재빌드 필요
+- 두 사람의 이야기 네 번째 지도: `client/src/components/StoryMap.tsx`는 손그림 지도 배경
+  `client/src/assets/story-04-map-illustrated.webp`와 `.png` 폴백(864×704) 위에 SVG 경로를 겹친다.
+  기존 삽화와 어울리는 연필 윤곽·수채화 질감이며, 260px 너비로 표시한다. 적갈색 Q 곡선 네 구간에
+  고정된 미세 연필 질감 필터를 적용하고, `index.css`의 `.story-map` 애니메이션으로 차례로 그린다.
+  화면 진입 후 도착 지점과 함께 9초 주기로 반복하며, 동작 줄이기에서는 완성된 경로를 표시한다.
+  국경·도시 이름 없이 중국과 한국을 오가는 만남을 장식적으로 표현하며, 실제 도시나 여행 순서를 확정하지 않는다.
+  배경은 내장 image_gen으로 제작했다. `design/story-04/map/illustrated/`에 `generated-map.png`,
+  정확한 `generation-prompt.txt`, `prepare.cjs`, `layout.json`을 보관한다. 준비 스크립트는 원본 전체 구도를
+  자르지 않고 864×704로 축소해 PNG와 WebP(품질 0.94)를 생성한다(Node.js·Puppeteer 필요).
+  구도 참고는 Natural Earth 지도에서 이동 경로를 제외한 `design/story-04/map/style-layout-reference.png`이며,
+  화풍 참고는 1·5장 스프라이트다. 기존 해안선 자료 `design/story-04/map/ne_110m_land.geojson`과
+  `client/src/assets/story-04-map-land.ts`는 참고·재생성용으로 보관하며 현재 컴포넌트에서는 불러오지 않는다.
+  `python3 design/story-04/map/prepare.py`로 로컬 GeoJSON에서 SVG 경로를 다시 만들 수 있다.
+  제작·재생성 절차, Natural Earth 출처와 이용 조건은 `design/story-04/README.md`에 기록한다.
+  기존 `design/story-04/`의 걷기 시트·프롬프트와 `client/src/assets/story-04-sprite.png`·`.webp`는
+  사용하지 않는 시안으로 보관한다 → 재빌드 필요
+- 링크 미리보기 이미지: `client/public/og.jpg` (1200×630 JPEG, index.html 의 og:image 절대 URL). 바꾸면 재빌드 후
+  카카오 캐시 초기화(developers.kakao.com/tool/clear/og) 필요
+- 파비콘: `client/public/` 의 favicon.ico · favicon-32.png · icon-192.png · apple-touch-icon.png(종이색 배경).
+  원본은 반지 사진 PNG(920²) — 바꾸면 같은 4개 파일 재생성 후 재빌드 필요
+- 방명록: `data/guestbook.json` 단일 파일. 시드 없음(없으면 빈 방명록). 손으로 고쳤으면 `docker compose restart app`
+  (메모리 사본이 다음 저장 때 파일을 덮는다). 일일 스냅샷 `data/backups/guestbook-YYYY-MM-DD.json` 30일 보관
+
+## 배포
+대표 주소는 `https://7chan.3chan.kr/`이다. `client/index.html`의 canonical·Open Graph URL과
+미리보기 이미지 절대 주소도 이 도메인을 사용한다.
+`Dockerfile` + `docker-compose.yml`(호스트 3002) 로 구동. `docker-compose.override.yml` 이
+공유 Caddy 스택의 `web` 네트워크에 `married-app` 별칭으로 연결한다.
+`/srv/proxy/Caddyfile`의 `7chan.3chan.kr` 블록이 결혼 페이지를 `married-app:3001`로 전달한다.
+기존 `married.3chan.kr` 블록은 결혼 페이지 경로를 새 대표 주소로 리디렉션하도록 설정한다.
+기존 도메인의 DNS가 서버를 가리켜 요청이 도달해야 리디렉션이 동작한다. DNS 기록이 없으면
+Caddy 설정만으로 기존 주소의 접속을 복구할 수 없다.
+두 호스트의 `/drop/*`는 리디렉션하지 않고 동일한 `/srv/drop` 파일 드롭 앱(`drop-app:8080`)으로
+접두어를 떼어 전달한다. 결혼 페이지와 무관한 별도 서비스이며 기존 데이터는 그대로 보존한다.
+토큰은 `/srv/drop/.env`, 업로드 파일은 `/srv/drop/files/`에 있다.

@@ -1,0 +1,25 @@
+Built-in image_gen, reference: client/src/assets/story-01-sprite.png
+
+Use case: illustration-story. Rebuild this existing 9-frame animation as a NEW professional 15-frame sprite atlas with genuinely drawn intermediate movements, NOT duplicated frames and NOT a 9-frame atlas.
+Reference image is the exact scene, characters, outfits and hand-drawn style to preserve: delicate warm charcoal outlines, muted watercolor fills, cream, taupe, dark brown, restrained brick-red. Keep charming understated adult proportions.
+MANDATORY OUTPUT GEOMETRY: FIFTEEN separate complete drawings in EXACTLY FIVE COLUMNS AND THREE ROWS. 5 x 3 = 15 frames, row-major chronological order, all equal rectangular cells, ideally 2160 x 1056 pixels total (432x352 each). Wide landscape atlas, about 2.045:1 aspect ratio. No gutters, grid lines, borders, labels, captions, numbers, words or watermark. Every drawing centered within its own equal cell with at least 10% blank margins on all sides.
+Perfectly flat opaque light warm paper background #f4efe6 throughout the whole image, no checkerboard, no gradient, no texture outside drawings.
+LOCK CAMERA AND SCALE: identical fixed scene geometry and baseline in every frame. Fifteen frames of one three-second looping animation. Each change tiny and gradual; do not redraw different body proportions. Frame15 must transition naturally back to frame1 without jumping. All parts fully inside their own cell. Legible at 260px width.
+SCENE 1 LANGUAGE APP: exactly the reference pair seated cross-legged on the ground, man LEFT in cream sweater dark trousers, woman RIGHT in brick-red cardigan taupe skirt, each holding their own small phone, looking down toward screens. They are physically apart, greeting remotely before dating; no touching, no hearts, no chairs. Keep the seated silhouettes, head coordinates, hands with phones and clothing fixed. Minimal taupe and muted red speech bubbles containing only three small dots.
+15-frame sequence:
+1 both calm, no bubbles.
+2 man's thumb moves slightly to tap.
+3 a tiny taupe bubble appears above his phone.
+4 taupe bubble grows slightly.
+5 taupe bubble reaches full small size, three dots.
+6 bubble eases a few pixels toward center, woman begins a tiny smile.
+7 woman smiles slightly more, thumb begins reply.
+8 tiny red-outline reply bubble appears above her phone.
+9 reply bubble grows slightly.
+10 reply bubble full size with three dots; man smiles.
+11 man briefly half-closes eyes while smiling, bubbles ease upward a few pixels.
+12 man's eyes open, woman briefly blinks.
+13 woman's eyes open, both bubbles shrink.
+14 bubbles almost gone, smiles settle back, thumbs at rest.
+15 both calm phones posture very close to frame1, no bubbles.
+Draw interpolated subtly differing intermediate bubble sizes and eye/hand motions, with constant body positions. Exactly 15 frames in 5 columns by 3 rows.

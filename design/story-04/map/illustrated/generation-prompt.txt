@@ -1,0 +1,16 @@
+Mode: built-in image_gen, style-transfer edit.
+
+Use case: style-transfer.
+Asset type: single illustrated map background for chapter 4 of a warm marriage-story website.
+Input images: Image 1 is the EDIT TARGET and exact composition/geography guide: an unlabelled East Asia map. Images 2 and 3 are STYLE REFERENCES ONLY: the existing hand-drawn couple illustrations elsewhere on the same website. Do not copy their people, props or 3x3 grids into the map.
+Primary request: repaint Image 1 so the map looks drawn by the same illustrator as Images 2 and 3, with confident warm charcoal-brown pencil outlines, gently imperfect fine ink contours, softly layered watercolor, tiny paper grain and sparse pencil shading. It should have the tangible, friendly illustrated quality of the couple's clothes and objects, and sufficient contrast to read at a small 260px display width.
+Preserve the exact landscape composition, camera, scale and location of every coastline in Image 1, especially the Korean peninsula at center-right and China's east coast. The map will have precisely positioned animated arcs added in code, so do not shift, recenter, enlarge, rotate, or reshape the geography.
+Use warm oatmeal and pale muted ochre land, a very light desaturated sage watercolor sea, and sepia-brown linework matching the reference drawings. Add restrained organic watercolor variation and subtle pencil hatching within the land, with the map's outer edges dissolving softly and irregularly into the same clean warm cream background (#f4efe6) as the illustrations. Avoid the smooth vector gradient of the input. The coast should have hand-drawn texture, while remaining in its original location.
+A single flat top-down map illustration only. No people, city buildings, flags, national boundaries, country names, text, numbers, compass, icons, pins, hearts, route lines, travel arcs, labels, panels or grid. No heavy vignette, dark border, aged stains, perspective, drop shadow, extra objects or decorative frame. Leave the broad interior uncluttered for the later animated routes.
+Output canvas: 1296x1056, keep the same 27:22 aspect and composition as Image 1.
+
+
+Referenced image paths (in order):
+1. /srv/married/design/story-04/map/style-layout-reference.png
+2. /srv/married/client/src/assets/story-01-sprite.png
+3. /srv/married/design/story-05/generated-sheet.png

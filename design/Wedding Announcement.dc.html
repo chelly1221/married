@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const W=new URLSearchParams(location.search).get("theme");if(W==="light"||W==="dark"){document.documentElement.dataset.theme=W}}{if(new URLSearchParams(location.search).get("_omthumb")==="1"){const W=(q)=>{const X=q.focus;if(!X)return;q.focus=function(H){X.call(this,{...H,preventScroll:true})}};W(HTMLElement.prototype);W(SVGElement.prototype);if(typeof MathMLElement!=="undefined"){W(MathMLElement.prototype)}const $=(q)=>{q.removeAttribute("autofocus");q.inert=true;if(!(q instanceof HTMLElement))q.removeAttribute("tabindex")};const z=(q)=>{if(q.hasAttribute("autofocus"))$(q);for(const X of q.querySelectorAll("[autofocus]")){$(X)}};z(document.documentElement);new MutationObserver((q)=>{for(const X of q){for(const H of X.addedNodes){if(H.nodeType===1)z(H)}}}).observe(document,{childList:true,subtree:true})}}{const W=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const $=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if($&&$!=="normal")return;const z=(j)=>{if(!j)return null;const F=getComputedStyle(j).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!F)return null;const G=F[4]==null?1:parseFloat(F[4])/(F[4].endsWith("%")?100:1);if(G<0.99)return null;return[+F[1],+F[2],+F[3]]};const q=z(document.body)||z(document.documentElement);if(!q)return;const X=(j)=>{const F=j/255;return F<=0.04045?F/12.92:((F+0.055)/1.055)**2.4};const H=0.2126*X(q[0])+0.7152*X(q[1])+0.0722*X(q[2]);document.documentElement.style.setProperty("color-scheme",H<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")W();else window.addEventListener("load",W)}var b=["https://claude.ai","https://preview.claude.ai","https://0bdc8d2d-baa8-48d8-8c25-585aec14e118.claudeusercontent.com"];var p=true;var u=30000;var d=3000;document.addEventListener("DOMContentLoaded",()=>{const W=window.Babel;const $="om-src-id";if(W&&W.registerPlugin&&!(W.availablePlugins&&W.availablePlugins[$])){W.registerPlugin($,({types:H})=>({visitor:{JSXOpeningElement(j,F){const G=j.node;if(G.name&&G.name.type==="JSXMemberExpression")return;for(let Q=0;Q<G.attributes.length;Q++){const V=G.attributes[Q];if(V.type==="JSXAttribute"&&V.name&&V.name.name==="data-om-id")return}const P=F.file&&F.file.opts&&F.file.opts.filename||"?";const R=G.loc&&G.loc.start;const J=`jsx:${P}:${G.start??0}:${R?R.line:0}:${R?R.column+1:0}`;G.attributes.push(H.jsxAttribute(H.jsxIdentifier("data-om-id"),H.stringLiteral(J)))}}}))}const z="om-text-extract";let q=false;if(p&&W&&W.registerPlugin&&!(W.availablePlugins&&W.availablePlugins[z])){const H=window.React;if(H&&H.useSyncExternalStore&&H.createElement){q=true;const j={};const F=new Set;let G=0;window.__omTextO=j;window.__omTextSet=(J)=>{for(const Q in J){const V=J[Q];if(V==null)delete j[Q];else j[Q]=V}G++;F.forEach((Q)=>Q())};const P=(J)=>{F.add(J);return()=>F.delete(J)};const R=()=>G;window.__OmT=function J(Q){H.useSyncExternalStore(P,R,R);return H.createElement("span",{"data-om-text":Q.i,className:"__om-t"},Q.i in j?j[Q.i]:Q.children)};W.registerPlugin(z,({types:J})=>{const Q={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const V={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const Y=(K,M)=>J.logicalExpression("??",J.memberExpression(J.logicalExpression("||",J.memberExpression(J.identifier("window"),J.identifier("__omTextO")),J.objectExpression([])),J.stringLiteral(K),true),M);const Z=(K)=>K.file&&K.file.opts&&K.file.opts.filename||"?";const B=(K)=>K.file&&K.file.code||"";const U=(K,M)=>{const L=(D)=>D&&D.start!=null&&D.end!=null&&(D.type==="StringLiteral"||D.type==="TemplateLiteral"&&D.expressions.length===0)?[D.start,D.end]:null;const N=L(M);if(N)return N;if(M&&M.type==="Identifier"){const D=K.scope.getBinding(M.name);if(D&&D.constant&&D.path.node.type==="VariableDeclarator"){return L(D.path.node.init)}}return null};const x=(K,M,L)=>{const N=K.node;let D=false;const f=(w,A)=>{D=true;return J.jsxElement(J.jsxOpeningElement(J.jsxIdentifier("__OmT"),[J.jsxAttribute(J.jsxIdentifier("i"),J.stringLiteral(w))],false),J.jsxClosingElement(J.jsxIdentifier("__OmT")),[A],false)};const C=N.children.map((w)=>{if(w.type==="JSXText"){if(w.start==null||w.end==null)return w;const A=L.slice(w.start,w.end);const S=A.length-A.trimStart().length;const O=A.length-A.trimEnd().length;if(S+O>=A.length)return w;return f(`txt:${M}:${w.start+S}:${w.end-O}`,w)}if(w.type==="JSXExpressionContainer"){const A=U(K,w.expression);if(A)return f(`str:${M}:${A[0]}:${A[1]}`,w)}return w});if(D)N.children=C};return{visitor:{JSXOpeningElement(K,M){const L=K.node;const N=Z(M);const D={};for(let f=0;f<L.attributes.length;f++){const C=L.attributes[f];if(C.type!=="JSXAttribute"||!C.name)continue;const w=C.name.name;if(!V[w])continue;if(!C.value||C.value.type!=="StringLiteral")continue;if(C.value.start==null||C.value.end==null)continue;const A=`txt:${N}:${C.value.start}:${C.value.end}`;D[w]=A;C.value=J.jsxExpressionContainer(Y(A,J.stringLiteral(C.value.value)))}if(Object.keys(D).length){L.attributes.push(J.jsxAttribute(J.jsxIdentifier("data-om-text-attrs"),J.stringLiteral(JSON.stringify(D))))}},JSXElement(K,M){const L=K.node.openingElement;const N=L&&L.name&&L.name.name;if(N==="__OmT")return;if(typeof N==="string"&&Q[N])return;x(K,Z(M),B(M))},JSXFragment(K,M){x(K,Z(M),B(M))}}}})}}const X=q?["transform-react-jsx-source",$,z]:["transform-react-jsx-source",$];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((H,j)=>{const F=H.getAttribute("data-plugins")||"";const G=X.filter((P)=>F.indexOf(P)<0);if(G.length){H.setAttribute("data-plugins",F?`${F},${G.join(",")}`:G.join(","))}if(!H.hasAttribute("data-filename")){H.setAttribute("data-filename",H.getAttribute("src")||`inline-${j}`)}})});var I=window.parent;var g="not editable here — open the project in the Claude Design editor to save";var n=()=>Promise.resolve({persisted:false,noHost:true,reason:g});var k=n;var v="data/storage.json";var l=()=>{try{const W=new URL(document.baseURI);const $=W.pathname.match(/\/projects\/([^/]+)\/serve\//);if($)return $[1];return W.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var o=()=>{try{const W=new URL(document.baseURI);const $=W.pathname.indexOf("/serve/");if($>=0)return W.origin+W.pathname.slice(0,$+"/serve/".length)+v}catch{}return"./"+v};var E=null;var _=()=>{if(!E){E=fetch(o(),{cache:"no-store"}).then((W)=>{if(W.ok)return W.text();return W.status===404?"":null}).catch(()=>null).then((W)=>{if(W===null){E=null;return null}const $=new Map;if(!W)return $;let z;try{z=JSON.parse(W)}catch{console.warn("[omelette.storage] "+v+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");E=null;return null}if(z===null||typeof z!=="object"||Array.isArray(z)){console.warn("[omelette.storage] "+v+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");E=null;return null}const q=z;if("data"in q){const X=q.data;if(X===null||typeof X!=="object"||Array.isArray(X)){console.warn("[omelette.storage] "+v+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');E=null;return null}const H=q._meta;const j=H!==null&&typeof H==="object"?H.project:undefined;if(typeof j==="string"&&j!==""&&j!==l())return $;for(const F of Object.keys(X))$.set(F,X[F]);return $}for(const X of Object.keys(q)){if(X!=="_meta")$.set(X,q[X])}return $})}return E};var y=(W)=>k(v,JSON.stringify({_meta:{project:l(),version:1},data:Object.fromEntries(W)},null,2));var m=Promise.resolve();var T=(W)=>{const $=m.then(W);m=$.then(()=>{return},()=>{return});return $};var s=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var a=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var r=(W,$,z)=>{if(s.test($)||a.test(W)&&typeof z==="string"&&z.length>=8){console.warn('[omelette.storage] the value for "'+W+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var c={persisted:false,reason:"could not load the existing store — not overwriting it"};var i={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var h=new Set;var t={get:(W)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return T(_).then(($)=>{if($===null){h.add(W);return null}h.delete(W);if(!$.has(W))return null;const z=$.get(W);return z==null?null:JSON.parse(JSON.stringify(z))})},set:(W,$)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let z;try{z=JSON.stringify($)}catch(X){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(X)+")"))}if(z===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}r(W,z,$);const q=JSON.parse(z);return T(()=>_().then((X)=>{if(X===null)return c;if(h.has(W)){if(X.has(W))return i;h.delete(W)}X.set(W,q);return y(X)}))},delete:(W)=>{if(typeof W!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return T(()=>_().then(($)=>{if($===null)return c;if(h.has(W)){if($.has(W))return i;h.delete(W)}$.delete(W);return y($)}))},keys:()=>T(_).then((W)=>W===null?[]:Array.from(W.keys()))};window.omelette={writeFile:(W,$)=>k(W,$).then((z)=>{if(!z.persisted&&!z.noHost){throw new Error(z.reason||"write failed")}}),storage:t};if(I&&I!==window){const W=(J,Q)=>{try{I.postMessage({__omelette_log:true,type:J,data:Q},"*")}catch{}};["log","warn","error"].forEach((J)=>{const Q=console[J];console[J]=(...V)=>{const Y=V.map((Z)=>{try{return typeof Z==="object"?JSON.stringify(Z):String(Z)}catch{try{return String(Z)}catch{return"[unstringifiable]"}}}).join(" ");W(J,Y);Q.apply(console,V)}});window.addEventListener("error",(J)=>{const Q=J.target;if(Q&&Q!==window&&Q.tagName){const V=Q.src||Q.href||"";W("resource_error",`${Q.tagName} failed to load: ${V}`)}else{W("error",`${J.message||"Unknown error"} at ${J.filename||"?"}:${J.lineno||0}:${J.colno||0}`)}},true);window.addEventListener("unhandledrejection",(J)=>{const Q=J.reason;const V=Q instanceof Error?`${Q.message} ${Q.stack}`:String(Q);W("error",`Unhandled rejection: ${V}`)});window.addEventListener("click",(J)=>{if(J.defaultPrevented||J.button!==0)return;if(J.metaKey||J.ctrlKey||J.shiftKey||J.altKey)return;const Q=J.composedPath?J.composedPath():[];const V=["button","input","select","textarea","summary","label"];let Y=null;for(const x of Q){if(!(x instanceof Element))continue;if(x.localName==="a"){if(!(x instanceof HTMLAnchorElement))return;Y=x;break}if(V.indexOf(x.localName)!==-1)return}if(!Y)return;if(Y.isContentEditable)return;const Z=Y.closest("[contenteditable]");if(Z&&Z.getAttribute("contenteditable")!=="false")return;const B=(Y.getAttribute("target")||"_self").toLowerCase();if(B!=="_self"&&B!=="_top"&&B!=="_parent")return;let U;try{U=new URL(Y.href)}catch{return}if(U.protocol!=="http:"&&U.protocol!=="https:")return;if(location.origin==="null")return;if(U.origin===location.origin)return;J.preventDefault();window.open(U.href,"_blank","noopener,noreferrer")});const $=()=>{try{I.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver($).observe(document.documentElement);const z=()=>{$();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const J=()=>document.getElementById("root")||document.querySelector("body > div[id]");const Q=J()?.firstElementChild??null;let V=0;const Y=()=>{const Z=J();if(Z&&Z.firstElementChild!==Q||++V>30){$();return}setTimeout(Y,100)};setTimeout(Y,100)};if(document.readyState==="complete")z();else window.addEventListener("load",z);const q={};let X=0;const H=(J)=>new Promise((Q,V)=>{if(!b.length){V(new Error("claude.complete: no parent origin"));return}const Y=`c${++X}`;const Z=()=>setTimeout(()=>{delete q[Y];V(new Error(`claude.complete: no data for ${u/1000}s`))},u);const B=Z();q[Y]={resolve:Q,reject:V,text:"",t:B,arm:Z};try{for(const U of b){I.postMessage({__om_api:true,id:Y,body:J},U)}}catch(U){clearTimeout(B);delete q[Y];V(U)}});const j=8;const F=async(J,Q)=>{if(!Array.isArray(J.messages)){throw new Error("claude.complete: tools require a messages array")}const V=J.messages.slice();const Y={...J,tools:J.tools.map((U)=>{if(U===null||typeof U!=="object")return U;const x={};for(const K of Object.keys(U)){if(typeof U[K]!=="function")x[K]=U[K]}return x})};const Z=Y.tool_choice;const B=Z!=null&&(Z.type==="any"||Z.type==="tool")?{...Y,tool_choice:Z.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:Z.disable_parallel_tool_use}:{type:"auto"}}:Y;for(let U=0;U<j;U++){const x=await H({...U===0?Y:B,messages:V});const K=x.message;const M=K&&Array.isArray(K.content)?K.content:null;const L=M?M.filter((D)=>D?.type==="tool_use"):[];if(K?.stop_reason!=="tool_use"||L.length===0){return x.text}const N=[];for(const D of L){const f=Q.get(D.name);if(!f){N.push({type:"tool_result",tool_use_id:D.id,content:`no handler for tool "${D.name}"`,is_error:true});continue}try{const C=await f(D.input);const w=typeof C==="string"?C:R(C)??"";N.push({type:"tool_result",tool_use_id:D.id,content:w})}catch(C){N.push({type:"tool_result",tool_use_id:D.id,content:String(C?.message??C??"tool handler failed"),is_error:true})}}V.push({role:"assistant",content:M},{role:"user",content:N})}throw new Error(`claude.complete: exceeded ${j} tool turns`)};window.claude={complete(J){const Q=J;if(Q!==null&&typeof Q==="object"&&Array.isArray(Q.tools)&&Q.tools.some((V)=>V!==null&&typeof V==="object"&&typeof V.run==="function")){const V=new Map;for(const Y of Q.tools){if(Y!==null&&typeof Y==="object"&&typeof Y.run==="function"){V.set(String(Y.name),Y.run)}}return F(Q,V)}return H(J).then((V)=>V.text)}};const G={};let P=0;k=(J,Q)=>new Promise((V)=>{if(!b.length){V({persisted:false,noHost:true,reason:g});return}const Y=`f${++P}`;const Z=setTimeout(()=>{delete G[Y];V({persisted:false,noHost:true,reason:g})},d);G[Y]={settle:V,t:Z};try{for(const B of b){I.postMessage({__om_file:true,id:Y,op:"write",path:J,content:Q},B)}}catch{clearTimeout(Z);delete G[Y];V({persisted:false,noHost:true,reason:g})}});const R=(J)=>{try{return JSON.stringify(J)}catch{return JSON.stringify(String(J))}};window.addEventListener("message",(J)=>{if(b.indexOf(J.origin)<0)return;if(J.source!==I)return;const Q=J.data;if(!Q)return;if(Q.type==="omelette-preview-refresh"){if(typeof Q.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(Q.token))return;const Z=Math.max(1,Math.floor((Q.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+Q.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+Z;return}if(Q.__om_file_r){const Z=G[Q.id];if(!Z)return;clearTimeout(Z.t);delete G[Q.id];Z.settle(Q.ok?{persisted:true}:{persisted:false,reason:Q.error||"write failed"});return}if(Q.__om_api_r){const Z=q[Q.id];if(!Z)return;if(Q.error!=null){clearTimeout(Z.t);delete q[Q.id];Z.reject(new Error(Q.error));return}if(Q.chunk!=null){clearTimeout(Z.t);Z.t=Z.arm();Z.text+=Q.chunk;return}if(Q.done){clearTimeout(Z.t);delete q[Q.id];Z.resolve({text:Q.text!=null?Q.text:Z.text,message:Q.message});return}return}if(!Q.__om_eval)return;const V=Q;const Y=(Z)=>{J.source.postMessage({...Z,__om_eval_r:1,id:V.id},J.origin)};try{const Z=(0,eval)(V.code);if(Z&&typeof Z.then==="function"){Z.then((B)=>Y({ok:1,v:R(B)}),(B)=>Y({ok:0,e:String(B)}))}else{Y({ok:1,v:R(Z)})}}catch(Z){Y({ok:0,e:String(Z)})}})}})();
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@200;300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#e8e6e2}
+  a{color:inherit;text-decoration:none}
+  a:hover{opacity:.65}
+  input,textarea,button{font-family:inherit}
+  [data-scroll]{scrollbar-width:none;-ms-overflow-style:none}
+  [data-scroll]::-webkit-scrollbar{width:0;height:0}
+  @keyframes hint{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(7px);opacity:.9}}
+</style>
+</helmet>
+
+<section style="padding:56px 48px 90px;display:flex;flex-direction:column;gap:30px;font-family:'Noto Sans KR',sans-serif">
+  <div style="display:flex;flex-direction:column;gap:7px">
+    <div style="font:400 12px/1 ui-monospace,monospace;letter-spacing:.18em;color:#8a857e">결혼 알림 랜딩</div>
+    <div style="font:400 26px/1.3 'Nanum Myeongjo',serif;color:#2a2825">결혼 알림 랜딩 · 모바일 원페이지</div>
+    <div style="font:300 14px/1.8 'Noto Sans KR',sans-serif;color:#6b6660;max-width:660px;text-wrap:pretty">실제로 스크롤됩니다. 스크롤에 따라 섹션이 부드럽게 떠오르고 배경 사진이 패럴랙스로 움직입니다. 방명록 입력, 음악 토글, 언어 전환(KR·EN·JP·CN)이 붙어 있습니다. 예식·축의금 안내는 넣지 않았습니다.</div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start">
+
+    <!-- ═══════════ 1A · 한지 ═══════════ -->
+    <div id="1a" style="display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <span style="font:500 11px/1 ui-monospace,monospace;letter-spacing:.12em;padding:5px 8px;border-radius:4px;background:#21201d;color:#f4efe6">1A</span>
+        <span style="font:400 13px/1.4 ui-monospace,monospace;color:#6b6660">한지 · 먹 — 정중한 서간체</span>
+      </div>
+      <div data-scroll style="width:390px;height:800px;overflow-y:auto;overflow-x:hidden;border-radius:38px;background:#f4efe6;color:#21201d;font-family:'Gowun Batang',serif;box-shadow:0 34px 64px -24px rgba(30,25,20,.45),0 0 0 1px rgba(33,32,29,.1);position:relative">
+
+        <div style="position:sticky;top:0;z-index:9;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:linear-gradient(#f4efe6 58%,rgba(244,239,230,0))">
+          <div style="display:flex;gap:11px;font:400 11px/1 'Gowun Batang',serif;letter-spacing:.14em">
+            <a href="#1a" style="border-bottom:1px solid #21201d;padding-bottom:2px">KR</a>
+            <a href="#1a" style="color:#a29a8e">EN</a>
+            <a href="#1a" style="color:#a29a8e">JP</a>
+            <a href="#1a" style="color:#a29a8e">CN</a>
+          </div>
+          <button onClick="{{ music.toggle }}" style="border:1px solid rgba(33,32,29,.22);background:transparent;color:#21201d;border-radius:999px;padding:5px 11px;font:400 11px/1 'Gowun Batang',serif;letter-spacing:.1em;cursor:pointer">{{ music.label }}</button>
+        </div>
+
+        <div style="position:relative;height:640px;overflow:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 34px;margin-top:-52px">
+          <div data-par="0.14" style="position:absolute;inset:-12% -20%;background:radial-gradient(58% 44% at 50% 34%,rgba(255,255,255,.9),transparent 70%),repeating-linear-gradient(93deg,rgba(33,32,29,.045) 0 1px,transparent 1px 4px)"></div>
+          <div data-reveal style="position:relative;display:flex;flex-direction:column;align-items:center;gap:30px">
+            <div style="writing-mode:vertical-rl;font:400 13px/1 'Nanum Myeongjo',serif;letter-spacing:.5em;color:#9c3b2e">謹　告</div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:15px">
+              <div style="font:400 14px/1 'Gowun Batang',serif;letter-spacing:.42em;color:#7d7669">결 혼 인 사</div>
+              <div style="width:1px;height:42px;background:linear-gradient(rgba(33,32,29,.4),transparent)"></div>
+              <div style="font:400 36px/1.35 'Nanum Myeongjo',serif;letter-spacing:.08em;text-align:center">서상현<span style="color:#9c3b2e;padding:0 9px">·</span>주정정</div>
+              <div style="font:400 15px/1.9 'Gowun Batang',serif;letter-spacing:.05em;color:#5c564d;text-align:center">저희 두 사람,<br>부부가 되었음을 알려 드립니다</div>
+            </div>
+            <div style="font:400 12px/1 ui-monospace,monospace;letter-spacing:.24em;color:#9a9184">{{ dateDot }}</div>
+          </div>
+          <div style="position:absolute;bottom:26px;left:0;right:0;display:flex;justify-content:center;font:400 11px/1 'Gowun Batang',serif;letter-spacing:.3em;color:#21201d;animation:hint 2.4s ease-in-out infinite">아래로</div>
+        </div>
+
+        <div data-reveal style="padding:62px 40px 54px;display:flex;flex-direction:column;gap:22px;align-items:center;text-align:center">
+          <div style="width:24px;height:24px;border:1px solid rgba(156,59,46,.5);transform:rotate(45deg)"></div>
+          <div style="font:400 15.5px/2.5 'Gowun Batang',serif;color:#3c3831;text-wrap:pretty">저희 두 사람, 오랜 시간 서로를 아끼며<br>지내온 끝에 마침내 한 가정을 이루었습니다.<br><br>따로 예식은 갖추지 아니하였으나,<br>귀한 분들께 저희의 새로운 시작을<br>정중히 알려 드리고자 합니다.<br><br>보내 주시는 축하의 말씀만으로<br>저희에게는 넘치는 선물이 됩니다.</div>
+          <div style="font:400 12.5px/1.9 'Gowun Batang',serif;color:#9c3b2e">예식은 진행하지 않으며,<br>축의금은 정중히 사양합니다.</div>
+        </div>
+
+        <div data-reveal style="position:relative;height:460px;overflow:hidden">
+          <div data-par="0.1" style="position:absolute;inset:-14% 0;background:repeating-linear-gradient(38deg,#ddd5c6 0 12px,#e6ded1 12px 24px);display:flex;align-items:center;justify-content:center">
+            <span style="font:400 11px/1 ui-monospace,monospace;letter-spacing:.14em;color:#8a8172">[ 두 사람 사진 · 세로 4:5 ]</span>
+          </div>
+        </div>
+
+        <div data-reveal style="padding:56px 40px;display:flex;flex-direction:column;gap:36px">
+          <div style="text-align:center;font:400 12px/1 'Gowun Batang',serif;letter-spacing:.34em;color:#9a9184">두 사람</div>
+          <div style="display:flex;flex-direction:column;gap:30px">
+            <div style="display:flex;flex-direction:column;gap:8px;text-align:center">
+              <div style="font:400 12.5px/1 'Gowun Batang',serif;letter-spacing:.2em;color:#9c3b2e">신랑</div>
+              <div style="font:400 25px/1.3 'Nanum Myeongjo',serif;letter-spacing:.08em">서상현</div>
+              <div style="font:400 11px/1 ui-monospace,monospace;letter-spacing:.16em;color:#a89f91">SEO SANG HYUN</div>
+              <div style="font:400 13px/1.9 'Gowun Batang',serif;color:#6b6459;margin-top:2px">서○○ · 이○○ 의 아들</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px"><div style="flex:1;height:1px;background:rgba(33,32,29,.14)"></div><div style="width:5px;height:5px;background:#9c3b2e;transform:rotate(45deg)"></div><div style="flex:1;height:1px;background:rgba(33,32,29,.14)"></div></div>
+            <div style="display:flex;flex-direction:column;gap:8px;text-align:center">
+              <div style="font:400 12.5px/1 'Gowun Batang',serif;letter-spacing:.2em;color:#9c3b2e">신부</div>
+              <div style="font:400 25px/1.3 'Nanum Myeongjo',serif;letter-spacing:.08em">주정정 <span style="font-size:15px;color:#8a8172">周婷婷</span></div>
+              <div style="font:400 11px/1 ui-monospace,monospace;letter-spacing:.16em;color:#a89f91">ZHOU TING TING</div>
+              <div style="font:400 13px/1.9 'Gowun Batang',serif;color:#6b6459;margin-top:2px">周○○ · ○○○ 의 딸</div>
+            </div>
+          </div>
+        </div>
+
+        <div data-reveal style="padding:52px 40px 58px;background:#efe8dc;display:flex;flex-direction:column;gap:24px;align-items:center">
+          <div style="font:400 12px/1 'Gowun Batang',serif;letter-spacing:.34em;color:#9a9184">혼인한 날</div>
+          <div style="font:400 21px/1.4 'Nanum Myeongjo',serif;letter-spacing:.1em">{{ dateKo }}</div>
+          <div style="width:100%;display:grid;grid-template-columns:repeat(7,1fr);font:400 12px/1 'Gowun Batang',serif;color:#a29a8e;padding-bottom:4px">
+            <sc-for list="{{ dows }}" as="w" hint-placeholder-count="7"><div style="text-align:center;letter-spacing:.06em">{{ w }}</div></sc-for>
+          </div>
+          <div style="width:100%;display:grid;grid-template-columns:repeat(7,1fr);gap:9px 0;font:400 13px/1 'Gowun Batang',serif;margin-top:-12px">
+            <sc-for list="{{ calDays }}" as="d" hint-placeholder-count="35">
+              <div style="position:relative;height:30px;display:flex;align-items:center;justify-content:center">
+                <sc-if value="{{ d.mark }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;width:30px;height:30px;border-radius:50%;background:#9c3b2e"></span></sc-if>
+                <span style="position:relative;color:{{ d.colorA }}">{{ d.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:8px">
+            <div style="font:400 11.5px/1 'Gowun Batang',serif;letter-spacing:.22em;color:#9a9184">함께한 날</div>
+            <div style="font:400 30px/1 'Nanum Myeongjo',serif;letter-spacing:.06em;color:#9c3b2e">{{ dplus }}</div>
+          </div>
+        </div>
+
+        <div data-reveal style="padding:56px 34px 40px;display:flex;flex-direction:column;gap:20px">
+          <div style="text-align:center;font:400 12px/1 'Gowun Batang',serif;letter-spacing:.34em;color:#9a9184">축하의 말씀</div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <input value="{{ gbA.name }}" onChange="{{ gbA.onName }}" placeholder="성함" style="border:none;border-bottom:1px solid rgba(33,32,29,.2);background:transparent;padding:10px 2px;font:400 14px/1.4 'Gowun Batang',serif;color:#21201d;outline:none">
+            <textarea value="{{ gbA.msg }}" onChange="{{ gbA.onMsg }}" placeholder="따뜻한 한마디를 남겨 주세요" rows="3" style="border:1px solid rgba(33,32,29,.16);background:rgba(255,255,255,.55);border-radius:3px;padding:12px;font:400 14px/1.8 'Gowun Batang',serif;color:#21201d;outline:none;resize:none"></textarea>
+            <button onClick="{{ gbA.submit }}" style="border:1px solid #21201d;background:#21201d;color:#f4efe6;padding:13px;border-radius:3px;font:400 13px/1 'Gowun Batang',serif;letter-spacing:.16em;cursor:pointer">남기기</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:13px;margin-top:6px">
+            <sc-for list="{{ entries }}" as="g" hint-placeholder-count="3">
+              <div style="border-top:1px solid rgba(33,32,29,.12);padding-top:13px;display:flex;flex-direction:column;gap:5px">
+                <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:400 13.5px/1 'Nanum Myeongjo',serif;letter-spacing:.06em">{{ g.name }}</span><span style="font:400 10.5px/1 ui-monospace,monospace;color:#a29a8e">{{ g.at }}</span></div>
+                <div style="font:400 13.5px/1.9 'Gowun Batang',serif;color:#4a453d">{{ g.msg }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:40px 40px 58px;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center">
+          <div style="width:1px;height:40px;background:linear-gradient(rgba(33,32,29,.3),transparent)"></div>
+          <div style="font:400 14px/2 'Gowun Batang',serif;color:#5c564d">귀한 마음 보내 주신 모든 분께<br>깊이 감사드립니다</div>
+          <div style="font:400 11px/1 ui-monospace,monospace;letter-spacing:.2em;color:#a89f91">SANG HYUN &amp; TING TING</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:560,&quot;height&quot;:1000}}">
+class Component extends DCLogic {
+  state = {
+    music: false,
+    drafts: { A: { name: "", msg: "" } },
+    entries: [
+      { name: "박현우", msg: "두 분의 앞날에 늘 따뜻한 날들이 함께하기를 바랍니다.", at: "07.24" },
+      { name: "李 佳", msg: "恭喜你們！祝百年好合，永結同心。", at: "07.22" },
+      { name: "정다은", msg: "소식 듣고 얼마나 기뻤는지 몰라요. 진심으로 축하드립니다.", at: "07.21" }
+    ]
+  };
+
+  weddingDate = new Date(2026, 5, 20);
+
+  componentDidMount() {
+    this.io = new IntersectionObserver(
+      (es) => es.forEach((e) => { if (e.isIntersecting) { e.target.style.opacity = "1"; e.target.style.transform = "none"; } }),
+      { threshold: 0.12 }
+    );
+    this.roots = Array.from(document.querySelectorAll("[data-scroll]"));
+    this.roots.forEach((root) => {
+      root.querySelectorAll("[data-reveal]").forEach((el) => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(26px)";
+        el.style.transition = "opacity 1.1s cubic-bezier(.2,.7,.2,1), transform 1.1s cubic-bezier(.2,.7,.2,1)";
+        this.io.observe(el);
+      });
+      const pars = Array.from(root.querySelectorAll("[data-par]"));
+      const onScroll = () => {
+        const rt = root.getBoundingClientRect();
+        pars.forEach((p) => {
+          const r = p.parentElement.getBoundingClientRect();
+          const rel = r.top - rt.top - rt.height / 2 + r.height / 2;
+          p.style.transform = "translate3d(0," + (-rel * parseFloat(p.dataset.par)).toFixed(1) + "px,0)";
+        });
+      };
+      root.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    });
+  }
+
+  componentWillUnmount() { if (this.io) this.io.disconnect(); }
+
+  gb(k) {
+    const d = this.state.drafts[k];
+    const set = (f) => (e) => {
+      const v = e.target.value;
+      this.setState((s) => ({ drafts: Object.assign({}, s.drafts, { [k]: Object.assign({}, s.drafts[k], { [f]: v }) }) }));
+    };
+    return {
+      name: d.name, msg: d.msg, onName: set("name"), onMsg: set("msg"),
+      submit: () => {
+        if (!d.name.trim() || !d.msg.trim()) return;
+        const n = new Date();
+        const at = String(n.getMonth() + 1).padStart(2, "0") + "." + String(n.getDate()).padStart(2, "0");
+        this.setState((s) => ({
+          entries: [{ name: d.name.trim(), msg: d.msg.trim(), at }].concat(s.entries),
+          drafts: Object.assign({}, s.drafts, { [k]: { name: "", msg: "" } })
+        }));
+      }
+    };
+  }
+
+  renderVals() {
+    const w = this.weddingDate, y = w.getFullYear(), m = w.getMonth(), day = w.getDate();
+    const first = new Date(y, m, 1).getDay(), len = new Date(y, m + 1, 0).getDate();
+    const calDays = [];
+    for (let i = 0; i < first; i++) calDays.push({ label: "", mark: false, colorA: "transparent" });
+    for (let i = 1; i <= len; i++) {
+      const mk = i === day;
+      calDays.push({ label: String(i), mark: mk, colorA: mk ? "#f4efe6" : "#4a453d" });
+    }
+    const days = Math.floor((Date.now() - w.getTime()) / 86400000);
+    const p2 = (n) => String(n).padStart(2, "0");
+    return {
+      dows: ["일", "월", "화", "수", "목", "금", "토"],
+      calDays, entries: this.state.entries,
+      dateDot: y + ". " + p2(m + 1) + ". " + p2(day),
+      dateKo: y + "년 " + (m + 1) + "월 " + day + "일 " + "일월화수목금토"[w.getDay()] + "요일",
+      dplus: "D+" + days,
+      music: { label: this.state.music ? "♪ 음악 끄기" : "♪ 음악 켜기", toggle: () => this.setState((s) => ({ music: !s.music })) },
+      gbA: this.gb("A")
+    };
+  }
+}
+</script>
+</body>
+</html>

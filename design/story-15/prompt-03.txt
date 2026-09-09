@@ -1,0 +1,33 @@
+Built-in image_gen, reference: client/src/assets/story-03-sprite.png
+
+Final layout correction prompt:
+Edit this 15-frame sprite atlas. Keep exactly the same illustration style, outfits, seats, window and gentle facial animation. KEEP EXACTLY FIVE COLUMNS and THREE ROWS, 15 full scenes total.
+FIX the layout: subjects are too large and bottom-row shoes are cut off. Redraw every COMPLETE scene at ONLY 70% of the width and 70% of the height of its equal cell. Each frame MUST have at least 12% clear blank margin on ALL FOUR sides, including below the shoes of the bottom row. All feet and shoes FULLY VISIBLE in every frame, no cropped bodies. Each of 15 cells is identical in size. Lock vignette size, seat baseline and window position across cells. Do not let any figure cross a cell boundary.
+Output WIDE 5x3 atlas about 2.045:1 (ideally2160x1056). Opaque perfectly flat light warm paper #f4efe6. No grid lines, borders, labels or text. All 15 sequential frames should retain subtle distinct intermediate eye and smile movements with first and last poses almost identical. No other changes. Prioritize CONSISTENT SMALLER VIGNETTES WITH GENEROUS EMPTY MARGINS.
+
+Initial prompt:
+
+Use case: illustration-story. Rebuild this existing 9-frame animation as a NEW professional 15-frame sprite atlas with genuinely drawn intermediate movements, NOT duplicated frames and NOT a 9-frame atlas.
+Reference image is the exact scene, characters, outfits and hand-drawn style to preserve: delicate warm charcoal outlines, muted watercolor fills, cream, taupe, dark brown, restrained brick-red. Keep charming understated adult proportions.
+MANDATORY OUTPUT GEOMETRY: FIFTEEN separate complete drawings in EXACTLY FIVE COLUMNS AND THREE ROWS. 5 x 3 = 15 frames, row-major chronological order, all equal rectangular cells, ideally 2160 x 1056 pixels total (432x352 each). Wide landscape atlas, about 2.045:1 aspect ratio. No gutters, grid lines, borders, labels, captions, numbers, words or watermark. Every drawing centered within its own equal cell with at least 10% blank margins on all sides.
+Perfectly flat opaque light warm paper background #f4efe6 throughout the whole image, no checkerboard, no gradient, no texture outside drawings.
+LOCK CAMERA AND SCALE: identical fixed scene geometry and baseline in every frame. Fifteen frames of one three-second looping animation. Each change tiny and gradual; do not redraw different body proportions. Frame15 must transition naturally back to frame1 without jumping. All parts fully inside their own cell. Legible at 260px width.
+SCENE 3 FIRST FLIGHT TOGETHER: preserve reference pair sitting in two adjacent warm taupe airplane seats, man LEFT, woman RIGHT, both with lap seatbelts. Single small oval window to woman's right with pale muted blue sky and small white cloud INSIDE window. No cabin wall rectangle, no other passengers, luggage or phones. Full seated bodies and feet, same outfits as reference.
+Lock seats, seated bodies, arms, hands in laps, shoes, window position and size. Animation mainly through gentle eye movements and subtle smiles, heads rotate at most a few degrees, never change face scale.
+15-frame sequence:
+1 both softly looking toward window.
+2 woman's eyes begin glancing toward man.
+3 woman's gaze shifts a little further.
+4 woman looks at man, gentle smile.
+5 man begins glancing at woman.
+6 his gaze moves slightly further toward her.
+7 both looking toward each other, small smiles.
+8 smiles gently deepen, woman's eyes half-close.
+9 woman briefly blinks, man's smile steady.
+10 woman opens eyes; man's eyes half-close.
+11 man briefly blinks, woman softly smiling.
+12 man's eyes open, both smiles settle.
+13 woman begins looking toward window again.
+14 man's eyes follow toward window, woman already looking out.
+15 both softly looking toward window, near-identical to frame1.
+Cloud drifts just a few pixels inside window in a subtle cyclic motion and returns smoothly by frame15. No torso or seat movement. Exactly 15 frames in 5 columns by 3 rows.
