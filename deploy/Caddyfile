@@ -11,15 +11,3 @@
 		reverse_proxy married-app:3001
 	}
 }
-
-# Legacy address: keep file-drop access; move announcement links to 7chan.
-# Public redirects require the legacy hostname to retain a DNS record.
-married.3chan.kr {
-	encode zstd gzip
-	handle_path /drop/* {
-		reverse_proxy drop-app:8080
-	}
-	handle {
-		redir https://7chan.3chan.kr{uri} 308
-	}
-}

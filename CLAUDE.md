@@ -100,9 +100,6 @@
 `Dockerfile` + `docker-compose.yml`(호스트 3002) 로 구동. `docker-compose.override.yml` 이
 공유 Caddy 스택의 `web` 네트워크에 `married-app` 별칭으로 연결한다.
 `/srv/proxy/Caddyfile`의 `7chan.3chan.kr` 블록이 결혼 페이지를 `married-app:3001`로 전달한다.
-기존 `married.3chan.kr` 블록은 결혼 페이지 경로를 새 대표 주소로 리디렉션하도록 설정한다.
-기존 도메인의 DNS가 서버를 가리켜 요청이 도달해야 리디렉션이 동작한다. DNS 기록이 없으면
-Caddy 설정만으로 기존 주소의 접속을 복구할 수 없다.
-두 호스트의 `/drop/*`는 리디렉션하지 않고 동일한 `/srv/drop` 파일 드롭 앱(`drop-app:8080`)으로
+`7chan.3chan.kr`의 `/drop/*`는 `/srv/drop` 파일 드롭 앱(`drop-app:8080`)으로
 접두어를 떼어 전달한다. 결혼 페이지와 무관한 별도 서비스이며 기존 데이터는 그대로 보존한다.
 토큰은 `/srv/drop/.env`, 업로드 파일은 `/srv/drop/files/`에 있다.

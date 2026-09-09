@@ -53,9 +53,7 @@ docker compose up -d --build   # 호스트 :3002
 }
 ```
 
-기존 `married.3chan.kr`의 결혼 페이지 경로는 새 대표 주소로 리디렉션하도록 설정합니다.
-이 리디렉션은 기존 도메인의 DNS가 서버를 가리켜 요청이 도달할 때 동작합니다.
-두 도메인의 `/drop/*`는 모두 같은 `drop-app:8080`으로 전달하며, 기존 업로드 파일과 드롭 동작을 유지합니다.
+`7chan.3chan.kr`의 `/drop/*`는 `drop-app:8080`으로 전달하며, 기존 업로드 파일과 드롭 동작을 유지합니다.
 페이지의 canonical·Open Graph URL과 미리보기 이미지 절대 주소도 `https://7chan.3chan.kr/`를 사용합니다.
 
 `client/index.html` 에 `noindex` 메타가 있습니다(개인 페이지 기본값) — 검색 노출을 원하면 제거하세요.
