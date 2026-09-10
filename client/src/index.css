@@ -128,58 +128,69 @@ button {
   }
 }
 
-/* 4장: 지도 진입 후 네 경로가 차례로 이어지고, 잠시 머문 뒤 반복한다.
-   기본 상태는 완성된 경로이므로 동작 줄이기에서도 이야기를 전달한다. */
+/* 4장: 약 3.8초 동안 선을 잇고, 도착할 때 점 전체를 표시한다. 6초 주기.
+   진입 전에는 선과 점을 숨기며, 동작 줄이기에서는 아래 규칙으로 완성본을 표시한다. */
 .story-map-route {
   stroke-dasharray: 1;
-  stroke-dashoffset: 0;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+.story-map-stop {
+  opacity: 0;
 }
 .story-map.is-visible .story-map-route,
 .story-map.is-visible .story-map-stop {
-  animation-duration: 9s;
-  animation-timing-function: ease-in-out;
+  animation-duration: 6s;
+  animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 .story-map.is-visible .story-map-route-1 { animation-name: story-route-1; }
 .story-map.is-visible .story-map-route-2 { animation-name: story-route-2; }
 .story-map.is-visible .story-map-route-3 { animation-name: story-route-3; }
 .story-map.is-visible .story-map-route-4 { animation-name: story-route-4; }
+.story-map.is-visible .story-map-stop-0 { animation-name: story-stop-0; }
 .story-map.is-visible .story-map-stop-1 { animation-name: story-stop-1; }
 .story-map.is-visible .story-map-stop-2 { animation-name: story-stop-2; }
 .story-map.is-visible .story-map-stop-3 { animation-name: story-stop-3; }
 .story-map.is-visible .story-map-stop-4 { animation-name: story-stop-4; }
 @keyframes story-route-1 {
-  0%, 8% { stroke-dashoffset: 1; opacity: 0; }
-  9% { opacity: 1; }
-  24%, 90% { stroke-dashoffset: 0; opacity: 1; }
-  99%, 100% { stroke-dashoffset: 0; opacity: 0; }
+  0%, 4% { stroke-dashoffset: 1; opacity: 0; }
+  4.1% { opacity: 1; }
+  22%, 88% { stroke-dashoffset: 0; opacity: 1; }
+  98%, 100% { stroke-dashoffset: 0; opacity: 0; }
 }
 @keyframes story-route-2 {
-  0%, 26% { stroke-dashoffset: 1; opacity: 0; }
-  27% { opacity: 1; }
-  42%, 90% { stroke-dashoffset: 0; opacity: 1; }
-  99%, 100% { stroke-dashoffset: 0; opacity: 0; }
+  0%, 24% { stroke-dashoffset: 1; opacity: 0; }
+  24.1% { opacity: 1; }
+  36%, 88% { stroke-dashoffset: 0; opacity: 1; }
+  98%, 100% { stroke-dashoffset: 0; opacity: 0; }
 }
 @keyframes story-route-3 {
-  0%, 44% { stroke-dashoffset: 1; opacity: 0; }
-  45% { opacity: 1; }
-  60%, 90% { stroke-dashoffset: 0; opacity: 1; }
-  99%, 100% { stroke-dashoffset: 0; opacity: 0; }
+  0%, 38% { stroke-dashoffset: 1; opacity: 0; }
+  38.1% { opacity: 1; }
+  50%, 88% { stroke-dashoffset: 0; opacity: 1; }
+  98%, 100% { stroke-dashoffset: 0; opacity: 0; }
 }
 @keyframes story-route-4 {
-  0%, 62% { stroke-dashoffset: 1; opacity: 0; }
-  63% { opacity: 1; }
-  78%, 90% { stroke-dashoffset: 0; opacity: 1; }
-  99%, 100% { stroke-dashoffset: 0; opacity: 0; }
+  0%, 52% { stroke-dashoffset: 1; opacity: 0; }
+  52.1% { opacity: 1; }
+  64%, 88% { stroke-dashoffset: 0; opacity: 1; }
+  98%, 100% { stroke-dashoffset: 0; opacity: 0; }
 }
-@keyframes story-stop-1 { 0%, 20%, 100% { opacity: 0; } 24%, 90% { opacity: 1; } }
-@keyframes story-stop-2 { 0%, 38%, 100% { opacity: 0; } 42%, 90% { opacity: 1; } }
-@keyframes story-stop-3 { 0%, 56%, 100% { opacity: 0; } 60%, 90% { opacity: 1; } }
-@keyframes story-stop-4 { 0%, 74%, 100% { opacity: 0; } 78%, 90% { opacity: 1; } }
+@keyframes story-stop-0 { 0%, 2% { opacity: 0; } 4%, 88% { opacity: 1; } 98%, 100% { opacity: 0; } }
+@keyframes story-stop-1 { 0%, 22% { opacity: 0; } 24%, 88% { opacity: 1; } 98%, 100% { opacity: 0; } }
+@keyframes story-stop-2 { 0%, 36% { opacity: 0; } 38%, 88% { opacity: 1; } 98%, 100% { opacity: 0; } }
+@keyframes story-stop-3 { 0%, 50% { opacity: 0; } 52%, 88% { opacity: 1; } 98%, 100% { opacity: 0; } }
+@keyframes story-stop-4 { 0%, 64% { opacity: 0; } 66%, 88% { opacity: 1; } 98%, 100% { opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
+  }
+  .story-map-route,
+  .story-map-stop {
+    stroke-dashoffset: 0;
+    opacity: 1;
   }
   [data-reveal],
   [data-scroll-scene],

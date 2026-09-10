@@ -15,7 +15,7 @@ const routes = [
 ];
 
 export function StoryMap() {
-  const [ref, shown] = useInView(0.25);
+  const [ref, shown] = useInView(0.5);
   const id = useId().replace(/:/g, '');
   return (
     <div ref={ref} aria-hidden="true" style={{ width: 260, maxWidth: '100%' }}>
@@ -33,19 +33,22 @@ export function StoryMap() {
         >
           <defs>
             <filter id={`${id}-pencil`} x="-10%" y="-10%" width="120%" height="120%" colorInterpolationFilters="sRGB">
-              <feTurbulence type="fractalNoise" baseFrequency=".18" numOctaves="2" seed="7" result="grain" />
-              <feDisplacementMap in="SourceGraphic" in2="grain" scale="1.2" xChannelSelector="R" yChannelSelector="G" />
+              <feTurbulence type="fractalNoise" baseFrequency=".28 .55" numOctaves="3" seed="7" result="grain" />
+              <feDisplacementMap in="SourceGraphic" in2="grain" scale="1.8" xChannelSelector="R" yChannelSelector="G" result="rough-ink" />
+              <feColorMatrix in="grain" type="matrix"
+                values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .9 .9 .9 0 -.65" result="paper-grain" />
+              <feComposite in="rough-ink" in2="paper-grain" operator="in" />
             </filter>
           </defs>
-          <g fill="none" stroke="#9b5b42" strokeWidth="2.8" strokeLinecap="round" filter={`url(#${id}-pencil)`}>
+          <g fill="none" stroke="#965238" strokeWidth="3.8" strokeLinecap="round" filter={`url(#${id}-pencil)`}>
             {routes.map((route, i) => (
               <path key={route} d={route} pathLength="1" className={`story-map-route story-map-route-${i + 1}`} />
             ))}
           </g>
           {stops.map(([x, y], i) => (
-            <g key={i} transform={`translate(${x} ${y})`}>
+            <g key={i} className={`story-map-stop story-map-stop-${i}`} transform={`translate(${x} ${y})`}>
               <ellipse rx="4.6" ry="4.2" transform="rotate(-12)" fill={C.paper} stroke="#775a43" strokeWidth="1.4" />
-              <circle className={`story-map-stop story-map-stop-${i}`} r="2.1" fill="#a96c4d" />
+              <circle r="2.1" fill="#a96c4d" />
             </g>
           ))}
         </svg>
