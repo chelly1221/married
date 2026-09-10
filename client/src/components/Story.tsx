@@ -49,7 +49,7 @@ function StoryArt({ chapter }: { chapter: number }) {
 // 각 장의 라벨·삽화·장 제목·본문이 자연스럽게 스크롤되며 함께 페이드한다.
 export function Story({ t }: { t: Strings }) {
   return (
-    <div>
+    <div className="story-sections">
       {t.story.map((ch, i) => (
         <ScrollScene
           key={i}

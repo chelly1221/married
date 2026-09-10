@@ -57,9 +57,19 @@ button {
   width: 100%;
 }
 
+/* 파트 사이에만 여백을 더해 삽화와 본문은 한 묶음으로 유지한다. */
+.page-sections > * + *,
+.story-sections > * + * {
+  margin-top: clamp(88px, 14vh, 144px);
+}
+
 @supports (height: 100svh) {
   .hero-scene {
     height: calc(100svh - 52px);
+  }
+  .page-sections > * + *,
+  .story-sections > * + * {
+    margin-top: clamp(88px, 14svh, 144px);
   }
 }
 

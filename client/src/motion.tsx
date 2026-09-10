@@ -91,8 +91,11 @@ const smoothStep = (value: number) => {
 
 function updateScenes() {
   const height = window.innerHeight;
-  const top = document.querySelector('[data-scene-toolbar]')?.getBoundingClientRect().height ?? 52;
-  const bottom = height - 16;
+  const toolbar = document.querySelector('[data-scene-toolbar]')?.getBoundingClientRect().height ?? 52;
+  // 화면 가장자리에 걸친 내용은 충분히 흐리게 두고, 안쪽에서 선명해지게 한다.
+  const edge = height * .12;
+  const top = toolbar + edge;
+  const bottom = height - edge;
   const documentHeight = document.documentElement.scrollHeight;
   const scroll = window.scrollY;
   const readings = Array.from(scenes, (element) => {
@@ -100,10 +103,12 @@ function updateScenes() {
     const content = element.firstElementChild as HTMLDivElement;
     // 처음 보이는 조각부터 충분히 긴 거리 동안 페이드하되, 본문을 읽는 구간은 선명하게 둔다.
     const fade = Math.max(1, Math.min(height * .46, (bottom - top + rect.height) * .4));
-    // 마지막 맺음말도 더 스크롤할 여지가 없는 문서 끝에서 완전히 나타나야 한다.
-    const enterFade = Math.max(1, Math.min(fade, documentHeight - (scroll + rect.top) - 16));
+    // 문서 양 끝은 스크롤 가능한 거리만 사용해 첫 화면과 맺음말도 완전히 표시한다.
+    const pageTop = scroll + rect.top;
+    const enterFade = Math.max(1, Math.min(fade, documentHeight - pageTop - edge));
+    const leaveFade = Math.max(1, Math.min(fade, pageTop + rect.height - top));
     const enter = smoothStep((bottom - rect.top) / enterFade);
-    const leave = smoothStep((rect.bottom - top) / fade);
+    const leave = smoothStep((rect.bottom - top) / leaveFade);
     return { content, opacity: content.hasAttribute('data-scene-interactive') ? 1 : Math.min(enter, leave) };
   });
   // 모든 레이아웃 읽기를 마친 뒤 한 프레임에 불투명도만 쓴다.
