@@ -1,11 +1,9 @@
 import { Strings } from '../i18n.ts';
 import { Lines } from '../lines.tsx';
-import { Reveal, useParallax } from '../motion.tsx';
+import { Reveal } from '../motion.tsx';
 import { C, DATE_DOT, F } from '../tokens.ts';
 
 export function Hero({ t }: { t: Strings }) {
-  const par = useParallax(0.14);
-
   return (
     <section
       className="hero-scene"
@@ -20,7 +18,6 @@ export function Hero({ t }: { t: Strings }) {
       }}
     >
       <div
-        ref={par}
         style={{
           position: 'absolute',
           inset: '-12% -20%',

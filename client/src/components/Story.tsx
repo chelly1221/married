@@ -46,7 +46,7 @@ function StoryArt({ chapter }: { chapter: number }) {
 }
 
 // 두 사람의 이야기 — 인사말과 같은 어조의 짧은 산문 다섯 장.
-// 각 장의 라벨·삽화·장 제목·본문을 하나의 화면으로 함께 표시한다.
+// 각 장의 라벨·삽화·장 제목·본문이 자연스럽게 스크롤되며 함께 페이드한다.
 export function Story({ t }: { t: Strings }) {
   return (
     <div>

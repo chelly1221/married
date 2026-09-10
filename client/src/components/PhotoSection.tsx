@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Reveal, useParallax } from '../motion.tsx';
+import { Reveal } from '../motion.tsx';
 import { C, F } from '../tokens.ts';
 
 // 기본은 장식 밴드 — 한지 결 위에 주사(朱砂) 囍 인장. 사진 없이 쓰는 것이 기본값이다.
@@ -8,13 +8,11 @@ import { C, F } from '../tokens.ts';
 const PHOTO_URL = '/media/couple.jpg';
 
 export function PhotoSection() {
-  const par = useParallax(0.1);
   const [loaded, setLoaded] = useState(false);
 
   return (
     <Reveal style={{ position: 'relative', height: 460, overflow: 'hidden' }}>
       <div
-        ref={par}
         style={{
           position: 'absolute',
           inset: '-14% 0',
