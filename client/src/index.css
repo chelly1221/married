@@ -47,6 +47,37 @@ button {
   text-wrap: pretty;
 }
 
+.hero-scene {
+  height: calc(100vh - 52px);
+  min-height: 480px;
+  max-height: 640px;
+}
+
+[data-scene-content] {
+  width: 100%;
+}
+
+/* 각 장면은 독립적인 스크롤 구간을 갖는다. 입력 중에는 구간 높이를 유지한다. */
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-scene {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: var(--focused-scene-height, calc(100vh - 52px));
+  }
+  @supports (height: 100svh) {
+    .scroll-scene {
+      min-height: var(--focused-scene-height, calc(100svh - 52px));
+    }
+  }
+}
+
+@supports (height: 100svh) {
+  .hero-scene {
+    height: calc(100svh - 52px);
+  }
+}
+
 /* 한국어 산문은 어절 단위로만 줄바꿈 (CJK 다른 로케일엔 적용하지 않는다) */
 :lang(ko) .prose {
   word-break: keep-all;
@@ -156,9 +187,11 @@ button {
     animation: none !important;
   }
   [data-reveal],
-  [data-scroll-scene] {
+  [data-scroll-scene],
+  [data-scene-content] {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    pointer-events: auto !important;
   }
 }

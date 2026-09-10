@@ -1,25 +1,22 @@
 import { Strings } from '../i18n.ts';
 import { Lines } from '../lines.tsx';
-import { Reveal, useParallax, useScrollExit } from '../motion.tsx';
+import { Reveal, useParallax } from '../motion.tsx';
 import { C, DATE_DOT, F } from '../tokens.ts';
 
 export function Hero({ t }: { t: Strings }) {
   const par = useParallax(0.14);
-  const exit = useScrollExit(420, 0.25); // 콘텐츠가 스크롤보다 느리게 따라오며 사라진다
-  const hintFade = useScrollExit(160, 0); // 스크롤 힌트는 더 빨리 사라진다
 
   return (
     <section
+      className="hero-scene"
       style={{
         position: 'relative',
-        height: 640,
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         padding: '0 34px',
-        marginTop: -52,
       }}
     >
       <div
@@ -32,7 +29,6 @@ export function Hero({ t }: { t: Strings }) {
         }}
       />
       <div
-        ref={exit}
         style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30 }}
       >
         <Reveal>
@@ -65,7 +61,6 @@ export function Hero({ t }: { t: Strings }) {
         </Reveal>
       </div>
       <div
-        ref={hintFade}
         style={{ position: 'absolute', bottom: 26, left: 0, right: 0, display: 'flex', justifyContent: 'center' }}
       >
         <div

@@ -32,13 +32,13 @@ export default function App() {
   return (
     <div style={{ maxWidth: 430, margin: '0 auto' }}>
       <TopBar t={t} locale={locale} setLocale={setLocale} music={music} />
-      <Hero t={t} />
+      <ScrollScene><Hero t={t} /></ScrollScene>
       <ScrollScene><Greeting t={t} /></ScrollScene>
       <ScrollScene><PhotoSection /></ScrollScene>
       <ScrollScene><Couple t={t} /></ScrollScene>
       <Story t={t} />
       <ScrollScene><WeddingDay t={t} /></ScrollScene>
-      <Guestbook t={t} entries={entries} submit={submit} />
+      <ScrollScene data-scene-interactive=""><Guestbook t={t} entries={entries} submit={submit} /></ScrollScene>
       <ScrollScene><Footer t={t} /></ScrollScene>
     </div>
   );

@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import spritePng from '../assets/story-01-sprite.png';
 import spriteWebp from '../assets/story-01-sprite.webp';
 import bicyclePng from '../assets/story-02-sprite.png';
@@ -46,46 +45,34 @@ function StoryArt({ chapter }: { chapter: number }) {
   );
 }
 
-// 두 사람의 이야기 — 인사말과 같은 어조의 짧은 산문 다섯 장. 장과 장 사이는 히어로·사진
-// 섹션에서 쓰는 세로 헤어라인이 잇는다. 모바일은 삽화·장 제목·본문을 함께 페이드한다.
+// 두 사람의 이야기 — 인사말과 같은 어조의 짧은 산문 다섯 장.
+// 각 장의 라벨·삽화·장 제목·본문을 하나의 화면으로 함께 표시한다.
 export function Story({ t }: { t: Strings }) {
   return (
-    <div
-      style={{
-        padding: '58px 40px 62px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 26,
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
-    >
-      <Reveal style={{ marginBottom: 8 }}>
-        <div style={{ font: `400 12px/1 ${F.batang}`, letterSpacing: '.34em', color: C.muteLight }}>{t.storyLabel}</div>
-      </Reveal>
+    <div>
       {t.story.map((ch, i) => (
-        <Fragment key={i}>
-          {i > 0 && (
-            <Reveal from="scaleY(0)" duration={0.9} style={{ transformOrigin: 'top' }}>
-              <div style={{ width: 1, height: 34, background: 'linear-gradient(transparent, rgba(33,32,29,.35), transparent)' }} />
+        <ScrollScene
+          key={i}
+          data-story-chapter={i + 1}
+          style={{ padding: '32px 40px', display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center', textAlign: 'center' }}
+        >
+          <Reveal style={{ marginBottom: 8 }}>
+            <div style={{ font: `400 12px/1 ${F.batang}`, letterSpacing: '.34em', color: C.muteLight }}>{t.storyLabel}</div>
+          </Reveal>
+          {(storyArt[i] || i === 3) && (
+            <Reveal style={{ marginBottom: 10, mixBlendMode: i === 2 || i === 4 ? 'darken' : undefined }}>
+              {i === 3 ? <StoryMap /> : <StoryArt chapter={i} />}
             </Reveal>
           )}
-          <ScrollScene data-story-chapter={i + 1} style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
-            {(storyArt[i] || i === 3) && (
-              <Reveal style={{ marginBottom: 10, mixBlendMode: i === 2 || i === 4 ? 'darken' : undefined }}>
-                {i === 3 ? <StoryMap /> : <StoryArt chapter={i} />}
-              </Reveal>
-            )}
-            <Reveal>
-              <div style={{ font: `400 12.5px/1 ${F.batang}`, letterSpacing: '.2em', color: C.accent }}>{ch.mark}</div>
-            </Reveal>
-            <Reveal delay={120}>
-              <p className="pretty prose" style={{ margin: 0, font: `400 15px/2.2 ${F.batang}`, color: C.ink80 }}>
-                {ch.text}
-              </p>
-            </Reveal>
-          </ScrollScene>
-        </Fragment>
+          <Reveal>
+            <div style={{ font: `400 12.5px/1 ${F.batang}`, letterSpacing: '.2em', color: C.accent }}>{ch.mark}</div>
+          </Reveal>
+          <Reveal delay={120}>
+            <p className="pretty prose" style={{ margin: 0, font: `400 15px/2.2 ${F.batang}`, color: C.ink80 }}>
+              {ch.text}
+            </p>
+          </Reveal>
+        </ScrollScene>
       ))}
     </div>
   );

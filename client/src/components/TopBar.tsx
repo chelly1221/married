@@ -11,6 +11,7 @@ interface Props {
 export function TopBar({ t, locale, setLocale, music }: Props) {
   return (
     <div
+      data-scene-toolbar=""
       style={{
         position: 'sticky',
         top: 0,
@@ -34,9 +35,9 @@ export function TopBar({ t, locale, setLocale, music }: Props) {
               padding: 0,
               font: 'inherit',
               letterSpacing: 'inherit',
-              ...(locale === key
-                ? { color: C.ink, borderBottom: `1px solid ${C.ink}`, paddingBottom: 2 }
-                : { color: C.muteLighter }),
+              color: locale === key ? C.ink : C.muteLighter,
+              borderBottom: `1px solid ${locale === key ? C.ink : 'transparent'}`,
+              paddingBottom: 2,
             }}
           >
             {label}

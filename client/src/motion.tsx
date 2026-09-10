@@ -65,12 +65,12 @@ export function Reveal({ style, children, delay = 0, from = 'translateY(26px)', 
   );
 }
 
-// 모바일에서는 내용 한 묶음이 스크롤 위치에 따라 반복해서 나타나고 사라진다.
-// 장의 중심이 아닌 양 끝을 기준으로 하므로 긴 본문은 읽는 동안 계속 선명하다.
+// 네이티브 스크롤의 현재 구간에 해당하는 장면 하나만 표시한다.
+// 짧은 내용은 화면 중앙에 머물고, 긴 내용과 입력 폼은 문서 흐름대로 읽는다.
 const ScrollSceneContext = createContext(false);
 const sceneMedia = typeof matchMedia === 'undefined' ? null
-  : matchMedia('(max-width: 600px) and (prefers-reduced-motion: no-preference)');
-const sceneSnapshot = () => sceneMedia?.matches ?? false;
+  : matchMedia('(prefers-reduced-motion: reduce)');
+const sceneSnapshot = () => sceneMedia !== null && !sceneMedia.matches;
 const subscribeSceneMedia = (listener: () => void) => {
   if (!sceneMedia) return () => {};
   // 구형 모바일 WebView의 MediaQueryList도 지원한다.
@@ -85,6 +85,7 @@ const subscribeSceneMedia = (listener: () => void) => {
 const scenes = new Set<HTMLDivElement>();
 let sceneFrame = 0;
 let sceneResize: ResizeObserver | undefined;
+let focusedSceneHeight = '';
 const smoothStep = (value: number) => {
   const p = Math.max(0, Math.min(1, value));
   return p * p * (3 - 2 * p);
@@ -92,20 +93,36 @@ const smoothStep = (value: number) => {
 
 function updateScenes() {
   const height = window.innerHeight;
-  // 스크롤은 브라우저에 맡기고, 상단 언어·음악 바 아래부터 읽기 영역으로 잡는다.
-  const top = Math.min(58, height * .12);
-  const bottom = height - 16;
+  const top = document.querySelector('[data-scene-toolbar]')?.getBoundingClientRect().height ?? 52;
+  const center = top + (height - top) / 2;
+  const focus = document.activeElement;
   const readings = Array.from(scenes, (element) => {
     const rect = element.getBoundingClientRect();
-    const fade = Math.max(1, Math.min(180, height * .23, rect.height * .8));
-    const enter = smoothStep((bottom - rect.top) / fade);
-    const leave = smoothStep((rect.bottom - top) / fade);
-    // 짧은 맺음말도 문서 최하단에서 완전히 표시되도록 한다.
-    const fits = rect.top >= top && rect.bottom <= height;
-    return { element, opacity: fits ? 1 : Math.min(enter, leave) };
+    const content = element.firstElementChild as HTMLDivElement;
+    return { element, content, rect, contentHeight: content.offsetHeight,
+      focused: focus !== document.body && element.contains(focus) && rect.bottom > top && rect.top < height };
   });
-  // 레이아웃 읽기와 스타일 쓰기를 나누고, 모든 장면을 한 rAF에서 갱신한다.
-  readings.forEach(({ element, opacity }) => { element.style.opacity = opacity.toFixed(3); });
+  const selected = readings.find((item) => item.focused)
+    ?? readings.find((item) => item.rect.top <= center && item.rect.bottom > center)
+    ?? readings.reduce<typeof readings[number] | undefined>((nearest, item) => {
+      const distance = Math.abs(item.rect.top + item.rect.height / 2 - center);
+      return !nearest || distance < Math.abs(nearest.rect.top + nearest.rect.height / 2 - center) ? item : nearest;
+    }, undefined);
+  // 읽기 후에 쓰기를 모은다. 경계에서 이전 장면이 사라진 뒤 다음 장면이 나타난다.
+  readings.forEach((item, index) => {
+    const { element, content, rect, contentHeight, focused } = item;
+    const active = item === selected;
+    const fade = Math.max(1, Math.min(120, (height - top) * .16, rect.height * .2));
+    const enter = index === 0 ? 1 : smoothStep((center - rect.top) / fade);
+    const leave = index === readings.length - 1 ? 1 : smoothStep((rect.bottom - center) / fade);
+    const opacity = active ? (focused ? 1 : Math.min(enter, leave)) : 0;
+    const pin = active && !content.hasAttribute('data-scene-interactive') && contentHeight <= height - top - 24;
+    const shift = pin ? center - (rect.top + rect.height / 2) : 0;
+    content.style.opacity = opacity.toFixed(3);
+    content.style.transform = shift ? `translate3d(0, ${shift.toFixed(2)}px, 0)` : 'none';
+    content.style.pointerEvents = active ? '' : 'none';
+    element.dataset.sceneActive = String(active);
+  });
 }
 
 function scheduleScenes() {
@@ -117,11 +134,34 @@ function scheduleScenes() {
   }
 }
 
+function handleSceneFocus() {
+  // 키보드가 올라와도 앞선 모든 장면의 높이가 줄어들어 스크롤 위치가 바뀌지 않게 한다.
+  const editing = Array.from(scenes).some((element) => element.contains(document.activeElement));
+  if (editing && !focusedSceneHeight) {
+    const first = scenes.values().next().value;
+    if (first) {
+      focusedSceneHeight = getComputedStyle(first).minHeight;
+      document.documentElement.style.setProperty('--focused-scene-height', focusedSceneHeight);
+    }
+  } else if (!editing && focusedSceneHeight) {
+    focusedSceneHeight = '';
+    document.documentElement.style.removeProperty('--focused-scene-height');
+  }
+  scheduleScenes();
+}
+
+function afterSceneBlur() {
+  // 이름에서 메시지 입력칸으로 옮기는 경우 현재 초점을 다음 프레임에서 확인한다.
+  requestAnimationFrame(handleSceneFocus);
+}
+
 function registerScene(element: HTMLDivElement) {
   if (!scenes.size) {
     window.addEventListener('scroll', scheduleScenes, { passive: true });
     window.addEventListener('resize', scheduleScenes, { passive: true });
     window.addEventListener('load', scheduleScenes, true);
+    document.addEventListener('focusin', handleSceneFocus);
+    document.addEventListener('focusout', afterSceneBlur);
     if (typeof ResizeObserver !== 'undefined') {
       sceneResize = new ResizeObserver(scheduleScenes);
       sceneResize.observe(document.body);
@@ -130,15 +170,25 @@ function registerScene(element: HTMLDivElement) {
   }
   scenes.add(element);
   sceneResize?.observe(element);
+  sceneResize?.observe(element.firstElementChild!);
   updateScenes();
   return () => {
     scenes.delete(element);
     sceneResize?.unobserve(element);
-    element.style.removeProperty('opacity');
+    const content = element.firstElementChild as HTMLDivElement;
+    sceneResize?.unobserve(content);
+    content.style.removeProperty('opacity');
+    content.style.removeProperty('transform');
+    content.style.removeProperty('pointer-events');
+    delete element.dataset.sceneActive;
     if (!scenes.size) {
       window.removeEventListener('scroll', scheduleScenes);
       window.removeEventListener('resize', scheduleScenes);
       window.removeEventListener('load', scheduleScenes, true);
+      document.removeEventListener('focusin', handleSceneFocus);
+      document.removeEventListener('focusout', afterSceneBlur);
+      focusedSceneHeight = '';
+      document.documentElement.style.removeProperty('--focused-scene-height');
       sceneResize?.disconnect();
       sceneResize = undefined;
       cancelAnimationFrame(sceneFrame);
@@ -154,8 +204,10 @@ export function ScrollScene({ children, ...props }: HTMLAttributes<HTMLDivElemen
     if (active && ref.current) return registerScene(ref.current);
   }, [active]);
   return (
-    <div {...props} ref={ref} data-scroll-scene="">
-      <ScrollSceneContext.Provider value={active}>{children}</ScrollSceneContext.Provider>
+    <div ref={ref} className="scroll-scene" data-scroll-scene="">
+      <div {...props} data-scene-content="">
+        <ScrollSceneContext.Provider value={active}>{children}</ScrollSceneContext.Provider>
+      </div>
     </div>
   );
 }
