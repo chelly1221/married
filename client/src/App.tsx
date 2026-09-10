@@ -11,6 +11,7 @@ import { TopBar } from './components/TopBar.tsx';
 import { WeddingDay } from './components/WeddingDay.tsx';
 import { detectLocale, Locale, STRINGS } from './i18n.ts';
 import { useMusic } from './music.ts';
+import { ScrollScene } from './motion.tsx';
 
 export default function App() {
   const [locale, setLocaleState] = useState<Locale>(detectLocale);
@@ -32,13 +33,13 @@ export default function App() {
     <div style={{ maxWidth: 430, margin: '0 auto' }}>
       <TopBar t={t} locale={locale} setLocale={setLocale} music={music} />
       <Hero t={t} />
-      <Greeting t={t} />
-      <PhotoSection />
-      <Couple t={t} />
+      <ScrollScene><Greeting t={t} /></ScrollScene>
+      <ScrollScene><PhotoSection /></ScrollScene>
+      <ScrollScene><Couple t={t} /></ScrollScene>
       <Story t={t} />
-      <WeddingDay t={t} />
+      <ScrollScene><WeddingDay t={t} /></ScrollScene>
       <Guestbook t={t} entries={entries} submit={submit} />
-      <Footer t={t} />
+      <ScrollScene><Footer t={t} /></ScrollScene>
     </div>
   );
 }

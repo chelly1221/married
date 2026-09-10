@@ -4,7 +4,7 @@
 결혼식을 따로 진행하지 않는 부부(서상현 · 주정정)가 지인들에게 결혼 사실만 정중히 알리는
 모바일 원페이지 랜딩. 예식 안내·오시는 길·축의금 계좌는 의도적으로 없다.
 구성: 인사말 / 사진 / 두 사람 소개 / 두 사람의 이야기 / 혼인한 날(캘린더 + D+ 카운터) / 방명록.
-4개 언어(KR/EN/JP/CN) 지원 — 신부가 중국분이라 CN이 필수. 스크롤 리빌 + 패럴랙스,
+4개 언어(KR/EN/JP/CN) 지원 — 신부가 중국분이라 CN이 필수. 모바일 스크롤 페이드 + 리빌·패럴랙스,
 `prefers-reduced-motion` 대응.
 
 ## 명령어
@@ -19,7 +19,8 @@
   - `src/App.tsx` — 로케일 상태 + 섹션 조립
   - `src/i18n.ts` — 4개 로케일 전체 카피 (부모님 성함, 두 사람의 이야기 `story` 배열 포함)
   - `src/tokens.ts` — 색·폰트 토큰, 혼인일(2026-06-20) 단일 출처
-  - `src/motion.tsx` — 모션 유틸: Reveal(딜레이·from 변형 지원) / useInView / useParallax /
+  - `src/motion.tsx` — 모션 유틸: ScrollScene(모바일에서 내용 묶음의 반복 페이드) /
+    Reveal(딜레이·from 변형 지원) / useInView / useParallax /
     useScrollExit(히어로 스크롤 퇴장) / useCountUp(D+ 카운트업). 전부 reduced-motion 대응.
     스크롤 탈취(scroll-jacking)는 의도적으로 쓰지 않는다 — 네이티브 스크롤 유지.
   - `src/music.ts` — useMusic. 사용자 음악 확인 후 기본곡을 선택하며, 클릭할 때만 오디오를 만들고 재생한다.
@@ -63,6 +64,16 @@
 - 한글 줄바꿈: `Hero.tsx`의 안내 문구와 `Greeting.tsx`의 본문, 기존 이야기 본문에 `.prose`를 적용한다.
   `index.css`의 `:lang(ko) .prose { word-break: keep-all; }`로 한국어 어절 중간의 줄바꿈을 막는다.
   다른 로케일에는 이 규칙을 적용하지 않으며, 첫 화면의 각 이름에는 `white-space: nowrap`을 적용한다.
+- 모바일 스크롤 페이드: `motion.tsx`의 `ScrollScene`은 화면 너비 600px 이하이고 동작 줄이기가
+  꺼져 있을 때 적용한다. `App.tsx`에서 인사말·사진/囍 장식·두 사람 소개·혼인일·맺음말을 감싸며,
+  `Story.tsx`에서는 각 장의 삽화·장 제목·본문을 한 묶음으로 감싼다. 화면 아래에서 나타나고 위로
+  벗어나며 사라지며, 반대로 스크롤하면 다시 나타난다. 장의 양 끝을 기준으로 불투명도를 계산하여
+  화면보다 긴 본문도 읽는 구간에서는 선명하게 유지한다. 모바일 묶음 내부의 `Reveal`은 지연·이동을
+  생략하여 효과가 중첩되지 않게 한다. 화면 너비가 600px를 넘으면 기존 1회 `Reveal`을 사용한다.
+  히어로는 기존 `useScrollExit`을 유지하고, 방명록 입력부와 목록은 반복 페이드에서 제외한다.
+  모든 묶음은 공용 requestAnimationFrame으로 갱신하고, 스크롤·창 크기·콘텐츠 높이 변화를 감지한다.
+  레이아웃 높이와 네이티브 스크롤을 유지하며 스냅·스크롤 탈취를 추가하지 않는다. 동작 줄이기에서는
+  반복 페이드를 해제하고 `index.css`의 `[data-reveal]`·`[data-scroll-scene]` 규칙으로 즉시 표시한다.
 - 두 사람의 이야기 스프라이트 삽화: 1·2·3·5장은 `client/src/assets/story-01-sprite.webp`,
   `story-02-sprite.webp`, `story-03-sprite.webp`, `story-05-sprite.webp`와 각각 `.png` 폴백을 사용한다.
   언어교환 앱·자전거 여행·함께 탄 비행기·집에서 낮은 나무 탁자와 찻잔 두 개를 앞에 둔 두 사람의 장면이다.

@@ -8,7 +8,7 @@ import flightWebp from '../assets/story-03-sprite.webp';
 import homePng from '../assets/story-05-sprite.png';
 import homeWebp from '../assets/story-05-sprite.webp';
 import { Strings } from '../i18n.ts';
-import { Reveal } from '../motion.tsx';
+import { Reveal, ScrollScene } from '../motion.tsx';
 import { C, F } from '../tokens.ts';
 import { StoryMap } from './StoryMap.tsx';
 
@@ -47,7 +47,7 @@ function StoryArt({ chapter }: { chapter: number }) {
 }
 
 // 두 사람의 이야기 — 인사말과 같은 어조의 짧은 산문 다섯 장. 장과 장 사이는 히어로·사진
-// 섹션에서 쓰는 세로 헤어라인이 위에서 아래로 그어지며 잇는다. 연출은 기존 Reveal 만 쓴다.
+// 섹션에서 쓰는 세로 헤어라인이 잇는다. 모바일은 삽화·장 제목·본문을 함께 페이드한다.
 export function Story({ t }: { t: Strings }) {
   return (
     <div
@@ -70,7 +70,7 @@ export function Story({ t }: { t: Strings }) {
               <div style={{ width: 1, height: 34, background: 'linear-gradient(transparent, rgba(33,32,29,.35), transparent)' }} />
             </Reveal>
           )}
-          <div data-story-chapter={i + 1} style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
+          <ScrollScene data-story-chapter={i + 1} style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
             {(storyArt[i] || i === 3) && (
               <Reveal style={{ marginBottom: 10, mixBlendMode: i === 2 || i === 4 ? 'darken' : undefined }}>
                 {i === 3 ? <StoryMap /> : <StoryArt chapter={i} />}
@@ -84,7 +84,7 @@ export function Story({ t }: { t: Strings }) {
                 {ch.text}
               </p>
             </Reveal>
-          </div>
+          </ScrollScene>
         </Fragment>
       ))}
     </div>

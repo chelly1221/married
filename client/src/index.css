@@ -155,4 +155,10 @@ button {
   * {
     animation: none !important;
   }
+  [data-reveal],
+  [data-scroll-scene] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
