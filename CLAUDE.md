@@ -41,7 +41,8 @@
   `weddingLabel`)은 `i18n.ts`의 각 로케일 `before`/`after`에 따로 둔다. `tokens.ts`의 `weddingPhase()`가
   방문자의 현지 날짜를 혼인일과 비교해 혼인일 당일부터 `after`를 고르고, `App.tsx`의 `getStrings(locale, phase)`가
   합쳐서 컴포넌트에 넘긴다. 혼인일 전에 열어 둔 화면은 자정을 넘기면 자동으로 `after`로 바뀐다.
-  `index.html`의 meta description은 정적이라 시제가 없는 문구("저희 두 사람의 결혼을 알려 드립니다.")를 쓴다.
+  `index.html`에는 description·og:description 메타를 두지 않는다(정적이라 시제를 맞출 수 없고, 미리보기 카드에
+  설명 문구를 아예 보이지 않게 하려는 의도. 2026-09-12 결정). 카드에는 제목과 이미지만 나온다.
   두 벌 모두 4개 로케일을 함께 수정 → 재빌드 필요
 - 함께한 날(D+): `client/src/tokens.ts` 의 `RELATIONSHIP_START`(2025-02-12) 기준. 방문자의 현지 날짜로 계산하며 시작일은 D+0이다. `DATE_HIDDEN`이 true이면 기존처럼 숨긴다 → 재빌드 필요
 - 사진: `data/media/couple.jpg` (세로 4:5) 드롭 → 즉시 반영. 없으면 囍 장식 밴드가 기본
@@ -116,8 +117,9 @@
   삭제했고, 제작 자료(`design/story-04/map/illustrated/`의 `generated-map.png`·`generation-prompt.txt`·
   `prepare.cjs`, Natural Earth GeoJSON, 걷기 스프라이트 시안)와 재생성 절차는 `design/story-04/README.md`에
   그대로 보관한다. 되살리려면 git 이력(커밋 b45499d 시점)의 `StoryMap.tsx`와 `index.css`의 `.story-map` 규칙을 참고한다.
-- 링크 미리보기 이미지: `client/public/og.jpg` (1200×630 JPEG, index.html 의 og:image 절대 URL). 바꾸면 재빌드 후
-  카카오 캐시 초기화(developers.kakao.com/tool/clear/og) 필요
+- 링크 미리보기 이미지: `client/public/og.jpg` (1200×630 JPEG, index.html 의 og:image 절대 URL). 반지 사진 위에
+  시제 없는 문구 "저희 결혼합니다"와 혼인일을 그린다. 원본·생성 스크립트·재생성 절차는 `design/og/README.md`.
+  바꾸면 재빌드 후 카카오 캐시 초기화(developers.kakao.com/tool/debugger/sharing, 로그인 필요) 필요
 - 파비콘: `client/public/` 의 favicon.ico · favicon-32.png · icon-192.png · apple-touch-icon.png(종이색 배경).
   원본은 반지 사진 PNG(920²) — 바꾸면 같은 4개 파일 재생성 후 재빌드 필요
 - 방명록: `data/guestbook.json` 단일 파일. 시드 없음(없으면 빈 방명록). 손으로 고쳤으면 `docker compose restart app`
