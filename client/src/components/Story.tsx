@@ -9,18 +9,15 @@ import homeWebp from '../assets/story-05-sprite.webp';
 import { Strings } from '../i18n.ts';
 import { Reveal, ScrollScene } from '../motion.tsx';
 import { C, F } from '../tokens.ts';
-import { StoryMap } from './StoryMap.tsx';
 
 const storyArt = [
   { png: spritePng, webp: spriteWebp },
   { png: bicyclePng, webp: bicycleWebp },
   { png: flightPng, webp: flightWebp },
-  null,
   { png: homePng, webp: homeWebp },
 ];
 
-// 1·2·3·5장은 스프라이트, 4장은 SVG 지도 위 경로를 순차적으로 그린다.
-// 3×3 스프라이트 시트(432×352 프레임)를
+// 네 장 모두 3×3 스프라이트 시트(432×352 프레임)를
 // 클리핑 박스 안에서 CSS steps 로 넘긴다(.sprite-3x3, index.css). 박스 비율은 aspect-ratio 대신
 // padding-top 으로 잡고 이미지는 즉시 로드한다 — 위챗 내장 브라우저(X5·구형 WKWebView)까지 고려.
 // 주변 문장이 장면을 설명하므로 장식 이미지로 취급한다(aria-hidden).
@@ -45,7 +42,7 @@ function StoryArt({ chapter }: { chapter: number }) {
   );
 }
 
-// 두 사람의 이야기 — 인사말과 같은 어조의 짧은 산문 다섯 장.
+// 두 사람의 이야기 — 인사말과 같은 어조의 짧은 산문 네 장.
 // 각 장의 라벨·삽화·장 제목·본문이 자연스럽게 스크롤되며 함께 페이드한다.
 export function Story({ t }: { t: Strings }) {
   return (
@@ -59,9 +56,9 @@ export function Story({ t }: { t: Strings }) {
           <Reveal style={{ marginBottom: 8 }}>
             <div style={{ font: `400 12px/1 ${F.batang}`, letterSpacing: '.34em', color: C.muteLight }}>{t.storyLabel}</div>
           </Reveal>
-          {(storyArt[i] || i === 3) && (
-            <Reveal style={{ marginBottom: 10, mixBlendMode: i === 2 || i === 4 ? 'darken' : undefined }}>
-              {i === 3 ? <StoryMap /> : <StoryArt chapter={i} />}
+          {storyArt[i] && (
+            <Reveal style={{ marginBottom: 10, mixBlendMode: i >= 2 ? 'darken' : undefined }}>
+              <StoryArt chapter={i} />
             </Reveal>
           )}
           <Reveal>

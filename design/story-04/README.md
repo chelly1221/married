@@ -1,7 +1,11 @@
-# 네 번째 이야기 · 여러 도시를 오가며
+# (제거됨) 네 번째 이야기 · 여러 도시를 오가며
 
-현재 페이지는 `client/src/components/StoryMap.tsx`에서 손그림 지도 배경 위에 SVG 이동 경로를 겹쳐 표시한다.
-배경은 `client/src/assets/story-04-map-illustrated.webp`와 `.png` 폴백(864×704)이다.
+> 2026-09-12에 이 장을 페이지에서 제거했다. 새 사건 없는 요약이라 이야기가 네 장으로 정리되었다.
+> `client/src/components/StoryMap.tsx`, `index.css`의 `.story-map` 규칙, `client/src/assets/story-04-*`는
+> 삭제했으며 아래는 제거 직전 구성과 제작 자료의 기록이다. 되살리려면 커밋 `b45499d`를 참고한다.
+
+제거 직전 페이지는 `client/src/components/StoryMap.tsx`에서 손그림 지도 배경 위에 SVG 이동 경로를 겹쳐 표시했다.
+배경은 `client/src/assets/story-04-map-illustrated.webp`와 `.png` 폴백(864×704)이었다.
 기존 1·2·3·5장 삽화와 어울리는 따뜻한 연필 윤곽, 수채화 색감과 종이 질감을 사용한다.
 국경과 도시 이름을 표시하지 않은 동아시아 지도 위에 적갈색의 포물선 모양 이동 경로가 순차적으로 이어진다.
 중국과 한국을 오가는 만남을 표현하는 장식으로, 점과 경로는 실제 방문 도시나 여행 순서를 확정하지 않는다.

@@ -99,10 +99,6 @@ export const STRINGS: Record<Locale, Strings> = {
         text: '첫 데이트는 하얼빈에서 시작되었습니다. 상현이 정정을 마중하러 갔고, 그날 함께 도쿄행 비행기에 올랐습니다.',
       },
       {
-        mark: '여러 도시를 오가며',
-        text: '그 뒤로 중국의 여러 도시와 한국을 오가며 만남을 이어 갔습니다.',
-      },
-      {
         mark: '한집에서',
         text: '정정이 대학을 졸업한 뒤, 저희는 두 달 동안 한집에서 지냈습니다. 일상을 함께 나누며, 저희는 부부가 되기로 했습니다.',
       },
@@ -165,10 +161,6 @@ export const STRINGS: Record<Locale, Strings> = {
       {
         mark: 'HARBIN, THEN TOKYO',
         text: 'Our first date began in Harbin. Sang Hyun came to meet Ting Ting, and that same day we boarded a flight to Tokyo together.',
-      },
-      {
-        mark: 'ACROSS CITIES',
-        text: 'After that, we continued seeing each other, traveling between cities in China and Korea.',
       },
       {
         mark: 'UNDER ONE ROOF',
@@ -237,10 +229,6 @@ export const STRINGS: Record<Locale, Strings> = {
         text: '初めてのデートはハルビンから始まりました。相賢が婷婷を迎えに行き、その日のうちに一緒に東京行きの飛行機に乗りました。',
       },
       {
-        mark: '街を行き来して',
-        text: 'それからは中国の各地と韓国を行き来しながら、一緒に過ごす時間を重ねていきました。',
-      },
-      {
         mark: 'ひとつ屋根の下で',
         text: '婷婷が大学を卒業したあと、私たちは二か月間、一緒に暮らしました。日常をともにする中で、私たちは夫婦になることを決めました。',
       },
@@ -303,10 +291,6 @@ export const STRINGS: Record<Locale, Strings> = {
       {
         mark: '哈尔滨，然后东京',
         text: '我们的第一次约会从哈尔滨开始。相贤去接婷婷，当天我们一起登上了飞往东京的航班。',
-      },
-      {
-        mark: '往返于不同城市',
-        text: '此后，我们往返于中国的许多城市和韩国之间，一次次相见。',
       },
       {
         mark: '同一个屋檐下',

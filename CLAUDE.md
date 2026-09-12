@@ -50,12 +50,13 @@
   경로를 바꾸면 재빌드한다. 제작 자료는 배포 이미지에 포함하지 않으며, 결과 MP3만 클라이언트에 번들한다.
 - 부모님 성함: `client/src/i18n.ts` — 신랑 서갑수·이윤진, 신부는 모친 刘丽娟 만(부친 성함은 의도적으로 생략, KR 로케일은 한국 한자음 유려연).
   바꾸려면 4개 로케일 모두 수정 → 재빌드 필요
-- 두 사람의 이야기: `client/src/i18n.ts` 의 `story` 배열(장마다 mark + text) 4개 로케일. 신부 부친·가족사는
+- 두 사람의 이야기: `client/src/i18n.ts` 의 `story` 배열(장마다 mark + text) 4개 로케일, 네 장. 신부 부친·가족사는
   적지 않는다. CN 카피는 신부 검수 전 초안 → 재빌드 필요
   첫 인사는 학습 언어·앱 사용 목적을 생략하고 두 사람의 대화로 시작한다. 첫 만남은 상현의 자전거 여행 중
   후허하오터에서 나흘 함께 지내고, 상현이 귀가 후 마음을 전하고 석 달 뒤 정정이 답한 순서다.
-  첫 만남 문구에는 거리·출발지를 넣지 않는다. 마지막 장은 정정의 대학 졸업 뒤 두 달 동안 한집에서 지내며,
-  일상을 함께 나누고 부부가 되기로 한 내용이다.
+  첫 만남 문구에는 거리·출발지를 넣지 않는다. 셋째 장은 하얼빈에서 시작한 첫 데이트와 도쿄행이다.
+  마지막 장은 정정의 대학 졸업 뒤 두 달 동안 한집에서 지내며, 일상을 함께 나누고 부부가 되기로 한 내용이다.
+  예전의 "여러 도시를 오가며" 장(지도 삽화)은 새 사건 없는 요약이라 2026-09-12에 제거했다.
 - 이름 표기: 사용자 확인 한자는 徐(천천히 갈 서)·相(서로 상)·賢(어질 현)이다. 일본어는 `徐相賢`,
   중국어 간체는 `徐相贤`을 제목·첫 화면·소개·마무리에 사용하고, 이야기에서는 `相賢`·`相贤`으로 쓴다.
   두 로케일의 신부 주표기는 `周婷婷`, 이야기에서는 `婷婷`이다. 일본어 인물 소개에는 가타카나 발음을
@@ -78,24 +79,25 @@
   완전히 나타나도록 스크롤 가능한 거리로 페이드를 제한한다. 위로 스크롤하면 동일한 위치에서 동일한 불투명도로 다시 표시된다.
   섹션은 콘텐츠 높이를 따르며, 위치 보정·중앙 고정·활성 장면 선택·화면 단위 최소 높이를 사용하지 않는다.
   장면 내부 `Reveal`은 지연·이동을 생략한다. 히어로와 사진의 별도 패럴랙스도 제거하여 위치는 스크롤에만
-  따른다. 스프라이트와 지도 자체의 애니메이션은 유지한다.
+  따른다. 스프라이트 자체의 애니메이션은 유지한다.
   `data-scene-interactive` 방명록은 불투명도 1을 유지하고, 상단 언어·음악 바는 페이드 밖에 둔다.
   모든 콘텐츠는 공용 requestAnimationFrame으로 갱신하며 스크롤·창 크기·콘텐츠 높이 변화를 감지한다.
   동작 줄이기에서는 불투명도 변경을 해제하고 `index.css`의 `[data-reveal]`·`[data-scroll-scene]`·
   `[data-scene-content]` 규칙으로 즉시 표시한다. 이때도 문서의 배치와 높이는 그대로다.
-- 두 사람의 이야기 스프라이트 삽화: 1·2·3·5장은 `client/src/assets/story-01-sprite.webp`,
-  `story-02-sprite.webp`, `story-03-sprite.webp`, `story-05-sprite.webp`와 각각 `.png` 폴백을 사용한다.
+- 두 사람의 이야기 스프라이트 삽화: 네 장은 순서대로 `client/src/assets/story-01-sprite.webp`,
+  `story-02-sprite.webp`, `story-03-sprite.webp`, `story-05-sprite.webp`와 각각 `.png` 폴백을 사용한다
+  (파일명은 제작 당시 5장 구성의 번호를 유지한다).
   언어교환 앱·자전거 여행·함께 탄 비행기·집에서 낮은 나무 탁자와 찻잔 두 개를 앞에 둔 두 사람의 장면이다.
   1296×1056, 3열×3행 시트(프레임 432×352, 9프레임 × 320ms, 2.88초 반복)를 260px 너비로 재생한다.
   `Story.tsx`의 `storyArt` 배열과 `index.css`의 `.sprite-3x3`를 사용한다. 동작 줄이기에서는 첫 프레임에 고정된다.
-  첫 번째·두 번째 장은 종이색 배경의 사용자 제공 시트이며, 세 번째·다섯 번째 장은 Reveal의
+  첫 번째·두 번째 장은 종이색 배경의 사용자 제공 시트이며, 세 번째·네 번째 장은 Reveal의
   `mix-blend-mode: darken`으로 밝은 배경을 페이지에 맞춘다.
   첫 번째·두 번째 장 원본은 각각 `design/story-01/supplied-sheet.png`, `design/story-02/supplied-sheet.png`다.
   각 폴더의 `prepare.cjs`는 크기를 검증한 뒤 PNG를 그대로 복사하고 WebP를 생성한다(프레임별 재정렬 없음).
   세 번째 장은 사용자 제공 `story-03-web-upload.zip`을 풀어 둔 `design/story-03/refined/`의
   `story-03-sprite-3x3.png`와 무손실 `.webp`를 사용한다. `design/story-03/prepare.cjs`는 두 파일의 크기를
   검증한 뒤 그대로 복사한다(프레임 재정렬·재인코딩 없음). 패키지의 HTML/CSS와 애니메이션 파일은 미리보기 자료다.
-  다섯 번째 장은 내장 image_gen으로 제작했다. 원본과 정확한 프롬프트는 `design/story-05/`의
+  네 번째 장(`story-05-sprite`)은 내장 image_gen으로 제작했다. 원본과 정확한 프롬프트는 `design/story-05/`의
   `generated-sheet.png`, `generation-prompt.txt`에 보관한다. 작은 시선·미소·눈 깜박임으로 함께하는 일상을 표현한다.
   `design/story-05/prepare.cjs`는 공용 `design/prepare-story-sprite.cjs`를 호출한다. 공용 스크립트는 3×3 셀의
   어두운 삽화 경계를 검출하고, 아홉 프레임에 같은 배율을 적용한 뒤 중심·바닥선을 맞춰 생성 여백을 정리한다.
@@ -103,25 +105,11 @@
   `design/story-03/generated-sheet.png`, `generation-prompt.txt`와 `/srv/drop/files/story-01-language-app.zip`은
   이전 시안의 원본·제작 기록이며 현재 사용하지 않는다. 15프레임 시안도 `design/story-15/`에 보관만 한다.
   프레임 격자를 바꾸면 CSS와 이미지 너비도 함께 수정해야 한다 → 재빌드 필요
-- 두 사람의 이야기 네 번째 지도: `client/src/components/StoryMap.tsx`는 손그림 지도 배경
-  `client/src/assets/story-04-map-illustrated.webp`와 `.png` 폴백(864×704) 위에 SVG 경로를 겹친다.
-  기존 삽화와 어울리는 연필 윤곽·수채화 질감이며, 260px 너비로 표시한다. 적갈색 Q 곡선 네 구간에
-  고정된 노이즈·변위·불투명도 마스크로 종이에 그린 연필 질감을 적용하고,
-  `index.css`의 `.story-map` 애니메이션으로 차례로 그린다. 지도 절반이 화면에 들어오면 시작하며,
-  약 3.8초에 네 선을 연결하고 완성본을 유지한 뒤 지우는 6초 주기로 반복한다.
-  점의 테두리와 중심은 함께 숨겨 두고, 출발점은 첫 선이 시작될 때, 도착점은 각 선이 도착한 뒤
-  0.12초 동안 나타난다. 동작 줄이기에서는 모든 선과 점을 완성된 상태로 표시한다.
-  국경·도시 이름 없이 중국과 한국을 오가는 만남을 장식적으로 표현하며, 실제 도시나 여행 순서를 확정하지 않는다.
-  배경은 내장 image_gen으로 제작했다. `design/story-04/map/illustrated/`에 `generated-map.png`,
-  정확한 `generation-prompt.txt`, `prepare.cjs`, `layout.json`을 보관한다. 준비 스크립트는 원본 전체 구도를
-  자르지 않고 864×704로 축소해 PNG와 WebP(품질 0.94)를 생성한다(Node.js·Puppeteer 필요).
-  구도 참고는 Natural Earth 지도에서 이동 경로를 제외한 `design/story-04/map/style-layout-reference.png`이며,
-  화풍 참고는 1·5장 스프라이트다. 기존 해안선 자료 `design/story-04/map/ne_110m_land.geojson`과
-  `client/src/assets/story-04-map-land.ts`는 참고·재생성용으로 보관하며 현재 컴포넌트에서는 불러오지 않는다.
-  `python3 design/story-04/map/prepare.py`로 로컬 GeoJSON에서 SVG 경로를 다시 만들 수 있다.
-  제작·재생성 절차, Natural Earth 출처와 이용 조건은 `design/story-04/README.md`에 기록한다.
-  기존 `design/story-04/`의 걷기 시트·프롬프트와 `client/src/assets/story-04-sprite.png`·`.webp`는
-  사용하지 않는 시안으로 보관한다 → 재빌드 필요
+- 제거된 지도 장(보관용): 예전 네 번째 장 "여러 도시를 오가며"는 손그림 지도 위에 SVG 경로를 그리는
+  `StoryMap.tsx`를 썼으나 2026-09-12에 장과 함께 제거했다. 컴포넌트·CSS·`client/src/assets/story-04-*`는
+  삭제했고, 제작 자료(`design/story-04/map/illustrated/`의 `generated-map.png`·`generation-prompt.txt`·
+  `prepare.cjs`, Natural Earth GeoJSON, 걷기 스프라이트 시안)와 재생성 절차는 `design/story-04/README.md`에
+  그대로 보관한다. 되살리려면 git 이력(커밋 b45499d 시점)의 `StoryMap.tsx`와 `index.css`의 `.story-map` 규칙을 참고한다.
 - 링크 미리보기 이미지: `client/public/og.jpg` (1200×630 JPEG, index.html 의 og:image 절대 URL). 바꾸면 재빌드 후
   카카오 캐시 초기화(developers.kakao.com/tool/clear/og) 필요
 - 파비콘: `client/public/` 의 favicon.ico · favicon-32.png · icon-192.png · apple-touch-icon.png(종이색 배경).
