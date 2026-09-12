@@ -124,6 +124,8 @@
   그다음 카카오 캐시 초기화(developers.kakao.com/tool/debugger/sharing, 로그인 필요)
 - 파비콘: `client/public/` 의 favicon.ico · favicon-32.png · icon-192.png · apple-touch-icon.png(종이색 배경).
   원본은 반지 사진 PNG(920²) — 바꾸면 같은 4개 파일 재생성 후 재빌드 필요
+- 방명록 입력 안내: 성함 또는 한마디가 비면 등록하지 않고 `i18n.ts`의 `gbNeedName`/`gbNeedMsg`를 빨간 안내로 띄우며
+  빈 칸에 포커스를 준다(2026-09-12, 이름을 안 적고 눌러도 반응이 없다는 문의로 추가). 입력을 시작하면 안내는 사라진다.
 - 방명록: `data/guestbook.json` 단일 파일. 시드 없음(없으면 빈 방명록). 손으로 고쳤으면 `docker compose restart app`
   (메모리 사본이 다음 저장 때 파일을 덮는다). 일일 스냅샷 `data/backups/guestbook-YYYY-MM-DD.json` 30일 보관
 

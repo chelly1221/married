@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Entry } from '../api.ts';
 import { Strings } from '../i18n.ts';
 import { Reveal } from '../motion.tsx';
@@ -13,22 +13,35 @@ interface Props {
 export function Guestbook({ t, entries, submit }: Props) {
   const [name, setName] = useState('');
   const [msg, setMsg] = useState('');
-  const [err, setErr] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const msgRef = useRef<HTMLTextAreaElement>(null);
 
   const onSubmit = async () => {
+    if (busy) return;
     const n = name.trim();
     const m = msg.trim();
-    if (!n || !m || busy) return;
+    // 빈 칸이 있으면 조용히 넘기지 않고 안내한 뒤 그 칸으로 포커스를 옮긴다
+    if (!n) {
+      setErr(t.gbNeedName);
+      nameRef.current?.focus();
+      return;
+    }
+    if (!m) {
+      setErr(t.gbNeedMsg);
+      msgRef.current?.focus();
+      return;
+    }
     setBusy(true);
     const ok = await submit(n, m);
     setBusy(false);
     if (ok) {
       setName('');
       setMsg('');
-      setErr(false);
+      setErr(null);
     } else {
-      setErr(true);
+      setErr(t.gbError);
     }
   };
 
@@ -41,8 +54,12 @@ export function Guestbook({ t, entries, submit }: Props) {
       </Reveal>
       <Reveal delay={120} style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
         <input
+          ref={nameRef}
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+            if (err === t.gbNeedName) setErr(null);
+          }}
           placeholder={t.gbName}
           maxLength={40}
           style={{
@@ -56,8 +73,12 @@ export function Guestbook({ t, entries, submit }: Props) {
           }}
         />
         <textarea
+          ref={msgRef}
           value={msg}
-          onChange={(e) => setMsg(e.target.value)}
+          onChange={(e) => {
+            setMsg(e.target.value);
+            if (err === t.gbNeedMsg) setErr(null);
+          }}
           placeholder={t.gbMsg}
           rows={3}
           maxLength={500}
@@ -88,7 +109,7 @@ export function Guestbook({ t, entries, submit }: Props) {
           {t.gbSubmit}
         </button>
         {err && (
-          <div style={{ textAlign: 'center', font: `400 12px/1.6 ${F.batang}`, color: C.accent }}>{t.gbError}</div>
+          <div role="alert" style={{ textAlign: 'center', font: `400 12px/1.6 ${F.batang}`, color: C.accent }}>{err}</div>
         )}
       </Reveal>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 13, marginTop: 6 }}>

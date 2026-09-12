@@ -54,6 +54,8 @@ export interface Strings extends PhasedStrings {
   gbMsg: string;
   gbSubmit: string;
   gbError: string;
+  gbNeedName: string; // 성함이 비었을 때
+  gbNeedMsg: string; // 한마디가 비었을 때
   footerThanks: string[];
   footerSig: string;
 }
@@ -119,6 +121,8 @@ export const COPY: Record<Locale, LocaleCopy> = {
     gbMsg: '따뜻한 한마디를 남겨 주세요',
     gbSubmit: '남기기',
     gbError: '말씀을 남기지 못했습니다. 잠시 후 다시 시도해 주세요.',
+    gbNeedName: '성함을 함께 적어 주세요.',
+    gbNeedMsg: '남기실 한마디를 적어 주세요.',
     before: {
       heroMsg: ['저희 두 사람,', '곧 부부가 됨을 알려 드립니다'],
       greetingParas: [
@@ -194,6 +198,8 @@ export const COPY: Record<Locale, LocaleCopy> = {
     gbMsg: 'Leave us a warm message',
     gbSubmit: 'LEAVE A NOTE',
     gbError: 'Your message could not be saved. Please try again in a moment.',
+    gbNeedName: 'Please add your name as well.',
+    gbNeedMsg: 'Please write a short message.',
     before: {
       heroMsg: ['With full hearts, we announce', 'that we will soon become husband and wife'],
       greetingParas: [
@@ -271,6 +277,8 @@ export const COPY: Record<Locale, LocaleCopy> = {
     gbMsg: '温かいひとことをお寄せください',
     gbSubmit: '送る',
     gbError: 'メッセージを保存できませんでした。しばらくしてからもう一度お試しください。',
+    gbNeedName: 'お名前もご記入ください。',
+    gbNeedMsg: 'ひとことをご記入ください。',
     before: {
       heroMsg: ['私たちふたり、夫婦となりますことを', '謹んでお知らせいたします'],
       greetingParas: [
@@ -346,6 +354,8 @@ export const COPY: Record<Locale, LocaleCopy> = {
     gbMsg: '请留下一句温暖的祝福',
     gbSubmit: '留言',
     gbError: '留言未能保存，请稍后再试。',
+    gbNeedName: '请一并填写您的姓名。',
+    gbNeedMsg: '请写下您的祝福。',
     before: {
       heroMsg: ['我们二人即将结为夫妻', '谨此告知各位亲友'],
       greetingParas: [
