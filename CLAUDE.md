@@ -117,9 +117,11 @@
   삭제했고, 제작 자료(`design/story-04/map/illustrated/`의 `generated-map.png`·`generation-prompt.txt`·
   `prepare.cjs`, Natural Earth GeoJSON, 걷기 스프라이트 시안)와 재생성 절차는 `design/story-04/README.md`에
   그대로 보관한다. 되살리려면 git 이력(커밋 b45499d 시점)의 `StoryMap.tsx`와 `index.css`의 `.story-map` 규칙을 참고한다.
-- 링크 미리보기 이미지: `client/public/og.jpg` (1200×630 JPEG, index.html 의 og:image 절대 URL). 반지 사진 위에
+- 링크 미리보기 이미지: `client/public/og-v2.jpg` (1200×630 JPEG, index.html 의 og:image 절대 URL). 반지 사진 위에
   시제 없는 문구 "저희 결혼합니다"와 혼인일을 그린다. 원본·생성 스크립트·재생성 절차는 `design/og/README.md`.
-  바꾸면 재빌드 후 카카오 캐시 초기화(developers.kakao.com/tool/debugger/sharing, 로그인 필요) 필요
+  카카오는 이미지를 URL 단위로 따로 캐시해 페이지 캐시 초기화만으로는 옛 그림이 남는다(2026-09-12 확인).
+  그림을 바꿀 때는 파일명 버전을 올리고(og-v3.jpg …) index.html 의 og:image 도 함께 바꾼 뒤 재빌드,
+  그다음 카카오 캐시 초기화(developers.kakao.com/tool/debugger/sharing, 로그인 필요)
 - 파비콘: `client/public/` 의 favicon.ico · favicon-32.png · icon-192.png · apple-touch-icon.png(종이색 배경).
   원본은 반지 사진 PNG(920²) — 바꾸면 같은 4개 파일 재생성 후 재빌드 필요
 - 방명록: `data/guestbook.json` 단일 파일. 시드 없음(없으면 빈 방명록). 손으로 고쳤으면 `docker compose restart app`
