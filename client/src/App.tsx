@@ -9,13 +9,22 @@ import { PhotoSection } from './components/PhotoSection.tsx';
 import { Story } from './components/Story.tsx';
 import { TopBar } from './components/TopBar.tsx';
 import { WeddingDay } from './components/WeddingDay.tsx';
-import { detectLocale, Locale, STRINGS } from './i18n.ts';
+import { detectLocale, getStrings, Locale, Phase } from './i18n.ts';
 import { useMusic } from './music.ts';
 import { ScrollScene } from './motion.tsx';
+import { msUntilNextMidnight, weddingPhase } from './tokens.ts';
 
 export default function App() {
   const [locale, setLocaleState] = useState<Locale>(detectLocale);
-  const t = STRINGS[locale];
+  const [phase, setPhase] = useState<Phase>(weddingPhase);
+  const t = getStrings(locale, phase);
+
+  // 혼인일 전에 열어 둔 화면이 자정을 넘기면 혼인 후 카피로 바뀐다.
+  useEffect(() => {
+    if (phase === 'after') return;
+    const id = window.setTimeout(() => setPhase(weddingPhase()), msUntilNextMidnight());
+    return () => window.clearTimeout(id);
+  }, [phase]);
   const music = useMusic();
   const { entries, submit } = useGuestbook();
 

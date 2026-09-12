@@ -18,7 +18,17 @@ interface Person {
   parents: string;
 }
 
-export interface Strings {
+// 혼인일 전/후로 시제가 달라지는 카피. 방문자의 현지 날짜가 혼인일 이상이면 after 를 쓴다.
+export type Phase = 'before' | 'after';
+
+export interface PhasedStrings {
+  heroMsg: string[];
+  greetingParas: string[][];
+  weddingLabel: string;
+}
+
+// 컴포넌트가 받는 완성된 카피 (phase 가 반영된 상태)
+export interface Strings extends PhasedStrings {
   htmlLang: string;
   docTitle: string;
   musicPlay: string;
@@ -28,16 +38,13 @@ export interface Strings {
   heroGroom: string;
   heroBride: string;
   heroNameSize: number;
-  heroMsg: string[];
   scrollHint: string;
-  greetingParas: string[][];
   notice: string[];
   coupleLabel: string;
   groom: Person;
   bride: Person;
   storyLabel: string;
   story: { mark: string; text: string }[];
-  weddingLabel: string;
   dateFull: string;
   dateMasked: string; // DATE_HIDDEN 일 때 dateFull 대신
   dows: string[];
@@ -51,7 +58,13 @@ export interface Strings {
   footerSig: string;
 }
 
-export const STRINGS: Record<Locale, Strings> = {
+// 로케일 파일에 적는 형태: 공통 카피 + 혼인일 전/후 카피
+interface LocaleCopy extends Omit<Strings, keyof PhasedStrings> {
+  before: PhasedStrings;
+  after: PhasedStrings;
+}
+
+export const COPY: Record<Locale, LocaleCopy> = {
   ko: {
     htmlLang: 'ko',
     docTitle: '서상현 · 주정정 — 결혼 알림',
@@ -62,13 +75,7 @@ export const STRINGS: Record<Locale, Strings> = {
     heroGroom: '서상현',
     heroBride: '주정정',
     heroNameSize: 36,
-    heroMsg: ['저희 두 사람,', '부부가 되었음을 알려 드립니다'],
     scrollHint: '아래로',
-    greetingParas: [
-      ['저희 두 사람, 오랜 시간 서로를 아끼며', '지내온 끝에 마침내 한 가정을 이루었습니다.'],
-      ['따로 예식은 갖추지 아니하였으나,', '귀한 분들께 저희의 새로운 시작을', '정중히 알려 드리고자 합니다.'],
-      ['보내 주시는 축하의 말씀만으로', '저희에게는 넘치는 선물이 됩니다.'],
-    ],
     notice: ['예식은 진행하지 않으며,', '축의금은 정중히 사양합니다.'],
     coupleLabel: '두 사람',
     groom: {
@@ -103,8 +110,7 @@ export const STRINGS: Record<Locale, Strings> = {
         text: '정정이 대학을 졸업한 뒤, 저희는 두 달 동안 한집에서 지냈습니다. 일상을 함께 나누며, 저희는 부부가 되기로 했습니다.',
       },
     ],
-    weddingLabel: '혼인한 날',
-    dateFull: '2026년 6월 20일 토요일',
+    dateFull: '2026년 9월 18일 금요일',
     dateMasked: '????년 ??월 ??일',
     dows: ['일', '월', '화', '수', '목', '금', '토'],
     dplusLabel: '함께한 날',
@@ -113,6 +119,24 @@ export const STRINGS: Record<Locale, Strings> = {
     gbMsg: '따뜻한 한마디를 남겨 주세요',
     gbSubmit: '남기기',
     gbError: '말씀을 남기지 못했습니다. 잠시 후 다시 시도해 주세요.',
+    before: {
+      heroMsg: ['저희 두 사람,', '곧 부부가 됨을 알려 드립니다'],
+      greetingParas: [
+        ['저희 두 사람, 오랜 시간 서로를 아끼며', '지내온 끝에 한 가정을 이루려 합니다.'],
+        ['따로 예식은 갖추지 아니하오나,', '귀한 분들께 저희의 새로운 시작을', '정중히 알려 드리고자 합니다.'],
+        ['보내 주시는 축하의 말씀만으로', '저희에게는 넘치는 선물이 됩니다.'],
+      ],
+      weddingLabel: '혼인하는 날',
+    },
+    after: {
+      heroMsg: ['저희 두 사람,', '부부가 되었음을 알려 드립니다'],
+      greetingParas: [
+        ['저희 두 사람, 오랜 시간 서로를 아끼며', '지내온 끝에 마침내 한 가정을 이루었습니다.'],
+        ['따로 예식은 갖추지 아니하였으나,', '귀한 분들께 저희의 새로운 시작을', '정중히 알려 드리고자 합니다.'],
+        ['보내 주시는 축하의 말씀만으로', '저희에게는 넘치는 선물이 됩니다.'],
+      ],
+      weddingLabel: '혼인한 날',
+    },
     footerThanks: ['따뜻한 축하를 보내 주신 모든 분께', '진심으로 감사드립니다'],
     footerSig: 'SANG HYUN & TING TING',
   },
@@ -127,13 +151,7 @@ export const STRINGS: Record<Locale, Strings> = {
     heroGroom: 'Sang Hyun',
     heroBride: 'Ting Ting',
     heroNameSize: 27,
-    heroMsg: ['With full hearts, we announce', 'that we have become husband and wife'],
     scrollHint: 'SCROLL',
-    greetingParas: [
-      ['After cherishing one another for so long,', 'we have now become a family.'],
-      ['Although we are not holding a ceremony,', 'we wish to share our new beginning', 'with those most dear to us.'],
-      ['Your kind words of congratulations', 'are the greatest gift we could receive.'],
-    ],
     notice: ['No ceremony will be held, and we', 'respectfully decline monetary gifts.'],
     coupleLabel: 'THE TWO OF US',
     groom: {
@@ -167,8 +185,7 @@ export const STRINGS: Record<Locale, Strings> = {
         text: 'After Ting Ting graduated from university, we lived together for two months. As we shared everyday life, we decided to get married.',
       },
     ],
-    weddingLabel: 'THE DAY WE MARRIED',
-    dateFull: 'Saturday, June 20, 2026',
+    dateFull: 'Friday, September 18, 2026',
     dateMasked: '????. ??. ??',
     dows: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
     dplusLabel: 'DAYS TOGETHER',
@@ -177,6 +194,24 @@ export const STRINGS: Record<Locale, Strings> = {
     gbMsg: 'Leave us a warm message',
     gbSubmit: 'LEAVE A NOTE',
     gbError: 'Your message could not be saved. Please try again in a moment.',
+    before: {
+      heroMsg: ['With full hearts, we announce', 'that we will soon become husband and wife'],
+      greetingParas: [
+        ['After cherishing one another for so long,', 'we are about to become a family.'],
+        ['Although we will not hold a ceremony,', 'we wish to share our new beginning', 'with those most dear to us.'],
+        ['Your kind words of congratulations', 'are the greatest gift we could receive.'],
+      ],
+      weddingLabel: 'THE DAY WE MARRY',
+    },
+    after: {
+      heroMsg: ['With full hearts, we announce', 'that we have become husband and wife'],
+      greetingParas: [
+        ['After cherishing one another for so long,', 'we have now become a family.'],
+        ['Although we are not holding a ceremony,', 'we wish to share our new beginning', 'with those most dear to us.'],
+        ['Your kind words of congratulations', 'are the greatest gift we could receive.'],
+      ],
+      weddingLabel: 'THE DAY WE MARRIED',
+    },
     footerThanks: ['Our heartfelt thanks to everyone', 'for your warm wishes'],
     footerSig: 'SANG HYUN & TING TING',
   },
@@ -191,13 +226,7 @@ export const STRINGS: Record<Locale, Strings> = {
     heroGroom: '徐相賢',
     heroBride: '周婷婷',
     heroNameSize: 32,
-    heroMsg: ['私たちふたり、夫婦となりましたことを', '謹んでお知らせいたします'],
     scrollHint: '下へ',
-    greetingParas: [
-      ['私たちふたりは互いを大切に想いながら歩み、', 'このたびひとつの家庭を築きました。'],
-      ['式は執り行いませんが、', '大切な皆さまに新しい門出を', '謹んでお知らせ申し上げます。'],
-      ['お祝いのお言葉をいただけるだけで、', '私たちには余りある贈り物です。'],
-    ],
     notice: ['挙式は行わず、', 'ご祝儀は謹んでご辞退申し上げます。'],
     coupleLabel: 'ふたり',
     groom: {
@@ -233,8 +262,7 @@ export const STRINGS: Record<Locale, Strings> = {
         text: '婷婷が大学を卒業したあと、私たちは二か月間、一緒に暮らしました。日常をともにする中で、私たちは夫婦になることを決めました。',
       },
     ],
-    weddingLabel: '夫婦になった日',
-    dateFull: '2026年6月20日（土）',
+    dateFull: '2026年9月18日（金）',
     dateMasked: '????年??月??日',
     dows: ['日', '月', '火', '水', '木', '金', '土'],
     dplusLabel: 'ともに歩んだ日々',
@@ -243,6 +271,24 @@ export const STRINGS: Record<Locale, Strings> = {
     gbMsg: '温かいひとことをお寄せください',
     gbSubmit: '送る',
     gbError: 'メッセージを保存できませんでした。しばらくしてからもう一度お試しください。',
+    before: {
+      heroMsg: ['私たちふたり、夫婦となりますことを', '謹んでお知らせいたします'],
+      greetingParas: [
+        ['私たちふたりは互いを大切に想いながら歩み、', 'このたびひとつの家庭を築くこととなりました。'],
+        ['式は執り行いませんが、', '大切な皆さまに新しい門出を', '謹んでお知らせ申し上げます。'],
+        ['お祝いのお言葉をいただけるだけで、', '私たちには余りある贈り物です。'],
+      ],
+      weddingLabel: '夫婦になる日',
+    },
+    after: {
+      heroMsg: ['私たちふたり、夫婦となりましたことを', '謹んでお知らせいたします'],
+      greetingParas: [
+        ['私たちふたりは互いを大切に想いながら歩み、', 'このたびひとつの家庭を築きました。'],
+        ['式は執り行いませんが、', '大切な皆さまに新しい門出を', '謹んでお知らせ申し上げます。'],
+        ['お祝いのお言葉をいただけるだけで、', '私たちには余りある贈り物です。'],
+      ],
+      weddingLabel: '夫婦になった日',
+    },
     footerThanks: ['温かいお祝いの言葉をくださった皆さまに', '心より感謝申し上げます'],
     footerSig: '徐相賢 · 周婷婷',
   },
@@ -257,13 +303,7 @@ export const STRINGS: Record<Locale, Strings> = {
     heroGroom: '徐相贤',
     heroBride: '周婷婷',
     heroNameSize: 32,
-    heroMsg: ['我们二人已结为夫妻', '谨此告知各位亲友'],
     scrollHint: '向下',
-    greetingParas: [
-      ['一路走来，我们始终珍惜彼此，', '如今终于组成了一个家庭。'],
-      ['虽然没有举办婚礼，', '仍想将我们的新开始', '郑重地告知各位亲友。'],
-      ['您的一句祝福，', '于我们而言已是最珍贵的礼物。'],
-    ],
     notice: ['我们不举办婚礼，', '礼金敬请免送。'],
     coupleLabel: '关于我们',
     groom: {
@@ -297,8 +337,7 @@ export const STRINGS: Record<Locale, Strings> = {
         text: '婷婷大学毕业后，我们一起生活了两个月。在日常相处中，我们决定结为夫妻。',
       },
     ],
-    weddingLabel: '成婚之日',
-    dateFull: '2026年6月20日 星期六',
+    dateFull: '2026年9月18日 星期五',
     dateMasked: '????年??月??日',
     dows: ['日', '一', '二', '三', '四', '五', '六'],
     dplusLabel: '相伴天数',
@@ -307,10 +346,34 @@ export const STRINGS: Record<Locale, Strings> = {
     gbMsg: '请留下一句温暖的祝福',
     gbSubmit: '留言',
     gbError: '留言未能保存，请稍后再试。',
+    before: {
+      heroMsg: ['我们二人即将结为夫妻', '谨此告知各位亲友'],
+      greetingParas: [
+        ['一路走来，我们始终珍惜彼此，', '如今即将组成一个家庭。'],
+        ['虽然不举办婚礼，', '仍想将我们的新开始', '郑重地告知各位亲友。'],
+        ['您的一句祝福，', '于我们而言已是最珍贵的礼物。'],
+      ],
+      weddingLabel: '成婚之日',
+    },
+    after: {
+      heroMsg: ['我们二人已结为夫妻', '谨此告知各位亲友'],
+      greetingParas: [
+        ['一路走来，我们始终珍惜彼此，', '如今终于组成了一个家庭。'],
+        ['虽然没有举办婚礼，', '仍想将我们的新开始', '郑重地告知各位亲友。'],
+        ['您的一句祝福，', '于我们而言已是最珍贵的礼物。'],
+      ],
+      weddingLabel: '成婚之日',
+    },
     footerThanks: ['衷心感谢每一位亲友', '送来的温暖祝福'],
     footerSig: '徐相贤 · 周婷婷',
   },
 };
+
+// 로케일과 혼인일 전/후 단계로 완성된 카피를 만든다.
+export function getStrings(locale: Locale, phase: Phase): Strings {
+  const { before, after, ...base } = COPY[locale];
+  return { ...base, ...(phase === 'after' ? after : before) };
+}
 
 export function detectLocale(): Locale {
   const saved = localStorage.getItem('locale');

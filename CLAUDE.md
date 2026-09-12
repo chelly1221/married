@@ -18,7 +18,7 @@
 - `client/` — Vite + React 18 + TypeScript(strict). 인라인 style로 디자인 프로토타입을 그대로 재현.
   - `src/App.tsx` — 로케일 상태 + 섹션 조립
   - `src/i18n.ts` — 4개 로케일 전체 카피 (부모님 성함, 두 사람의 이야기 `story` 배열 포함)
-  - `src/tokens.ts` — 색·폰트 토큰, 혼인일(2026-06-20) 단일 출처
+  - `src/tokens.ts` — 색·폰트 토큰, 혼인일(2026-09-18) 단일 출처
   - `src/motion.tsx` — 모션 유틸: ScrollScene(각 내용의 뷰포트 진입·퇴장에 따른 불투명도 페이드) /
     Reveal(딜레이·from 변형 지원, ScrollScene 안에서는 중첩 효과 생략) / useInView /
     useCountUp(D+ 카운트업). reduced-motion 대응.
@@ -34,9 +34,15 @@
 - `design/` — 원본 디자인 핸드오프와 이미지·음악 제작 자료(런타임에 직접 사용하지 않음)
 
 ## 콘텐츠 교체 포인트 (재빌드 불필요한 것 표시)
-- 혼인일 공개 여부: `client/src/tokens.ts` 의 `DATE_HIDDEN`(현재 true). true 면 히어로 날짜는 `????. ??. ??`,
+- 혼인일 공개 여부: `client/src/tokens.ts` 의 `DATE_HIDDEN`(현재 false, 2026-09-12에 공개). true 면 히어로 날짜는 `????. ??. ??`,
   혼인한 날 섹션은 라벨 + 로케일별 가림 표기(`i18n.ts` `dateMasked`)만 남고 캘린더·D+ 는 숨긴다.
   공개할 때 false 로 바꾸면 혼인일 기준 캘린더와 연애 시작일 기준 D+ 가 다시 나온다 → 재빌드 필요
+- 혼인일 전/후 카피: 시제가 걸리는 세 항목(히어로 문구 `heroMsg`, 인사말 `greetingParas`, 혼인일 섹션 라벨
+  `weddingLabel`)은 `i18n.ts`의 각 로케일 `before`/`after`에 따로 둔다. `tokens.ts`의 `weddingPhase()`가
+  방문자의 현지 날짜를 혼인일과 비교해 혼인일 당일부터 `after`를 고르고, `App.tsx`의 `getStrings(locale, phase)`가
+  합쳐서 컴포넌트에 넘긴다. 혼인일 전에 열어 둔 화면은 자정을 넘기면 자동으로 `after`로 바뀐다.
+  `index.html`의 meta description은 정적이라 시제가 없는 문구("저희 두 사람의 결혼을 알려 드립니다.")를 쓴다.
+  두 벌 모두 4개 로케일을 함께 수정 → 재빌드 필요
 - 함께한 날(D+): `client/src/tokens.ts` 의 `RELATIONSHIP_START`(2025-02-12) 기준. 방문자의 현지 날짜로 계산하며 시작일은 D+0이다. `DATE_HIDDEN`이 true이면 기존처럼 숨긴다 → 재빌드 필요
 - 사진: `data/media/couple.jpg` (세로 4:5) 드롭 → 즉시 반영. 없으면 囍 장식 밴드가 기본
   (사진 없이 운영하는 것이 기본 컨셉 — PhotoSection.tsx)
